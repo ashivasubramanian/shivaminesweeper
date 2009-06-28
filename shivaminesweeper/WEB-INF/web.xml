@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<servlet>
+		<servlet-name>setupboard</servlet-name>
+		<servlet-class>home.minesweeper.servlet.SetupBoard</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>gamepage</servlet-name>
+		<jsp-file>/pages/home.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>setupboard</servlet-name>
+		<url-pattern>/setupboard</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>gamepage</servlet-name>
+		<url-pattern>/gamepage</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>/pages/kickstart.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
