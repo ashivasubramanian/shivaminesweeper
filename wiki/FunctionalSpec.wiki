@@ -2,19 +2,19 @@
 
 = What this project is all about =
 The project is a web-based implementation of the Minesweeper game. This project was written because I wanted to showcase my coding
-skills as well as because a friend remarked that writing the algorithm for this game was too “tough”. Naturally, I immediately
+skills as well as because a friend remarked that writing the algorithm for this game was too "tough". Naturally, I immediately
 wanted to implement the game. (I believe he meant writing the algo for predicting the next move or an algo for solving the board,
-not rendering it. Still that's what I am doing here – rendering :-) ).
+not rendering it. Still that's what I am doing here - rendering	 :-) ).
 
 = Features =
 The game will have the following features:
 
  * When the user first accesses the application, he is presented with the Minesweeper board in Beginner mode.
- * The user can start playing the game in this mode, or he can switch over to either of the other two modes – Intermediate or Advanced.
+ * The user can start playing the game in this mode, or he can switch over to either of the other two modes - Intermediate or Advanced.
  * The difference among the 3 modes is this:
-  # Beginner – 10 mines on a 9 * 9 board
-  # Intermediate – 40 mines on a 16 * 16 board
-  # Advanced – 99 mines on a 16 * 30 board
+  # Beginner: 10 mines on a 9 * 9 board
+  # Intermediate: 40 mines on a 16 * 16 board
+  # Advanced: 99 mines on a 16 * 30 board
  * The method to change mode is as follows – there shall be a listbox on the top right of the page that lists all those modes other than
 the current one. The user can select this, and the page shall immediately refresh to show the new board.
  * In case the user wants to start the game afresh in the same mode, then there shall be another link called 'New Game' that the user can
