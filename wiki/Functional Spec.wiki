@@ -1,0 +1,267 @@
+#summary This is the functional specification of the shivaminesweeper project.
+
+= What this project is all about =
+The project is a web-based implementation of the Minesweeper game. This project was written because I wanted to showcase my coding
+skills as well as because a friend remarked that writing the algorithm for this game was too “tough”. Naturally, I immediately
+wanted to implement the game. (I believe he meant writing the algo for predicting the next move or an algo for solving the board,
+not rendering it. Still that's what I am doing here – rendering :-) ).
+
+= Features =
+The game will have the following features:
+
+ * When the user first accesses the application, he is presented with the Minesweeper board in Beginner mode.
+ * The user can start playing the game in this mode, or he can switch over to either of the other two modes – Intermediate or Advanced.
+ * The difference among the 3 modes is this:
+  # Beginner – 10 mines on a 9 * 9 board
+  # Intermediate – 40 mines on a 16 * 16 board
+  # Advanced – 99 mines on a 16 * 30 board
+ * The method to change mode is as follows – there shall be a listbox on the top right of the page that lists all those modes other than
+the current one. The user can select this, and the page shall immediately refresh to show the new board.
+ * In case the user wants to start the game afresh in the same mode, then there shall be another link called 'New Game' that the user can
+click to start a new game in the same mode.
+
+_Oh kay_, so here's the interview question. What if the user wants to play a new game but in a different mode?
+
+Ah.. in that case, the user shall open the listbox and select the mode in which he wants to play. The system shall immediately construct a
+new board in the mode he wants. Since the board is constructed afresh, the player shall effectively be playing a new game.
+
+To inform the user of the subtle difference between the two, the two controls above shall look like this:
+
+<div style="left:950px;position:absolute;">
+	<table style="border:1px black solid;" rows=1 cols=2> 
+		<tr>
+			<td width=80% align=right>
+				<a href="#"><u>N</u>ew Game</a><br>
+				(in same mode)
+			</td>
+			<td>
+				&nbsp;&nbsp;&nbsp;&nbsp;<u>C</u>hange mode:
+				<select>
+					<option>--Select mode--</option>
+					<option>Intermediate</option>
+					<option>Advanced</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+Notice here that the text, “Change mode” has the “C” highlighted. That's right – our app shall be fully functional using keyboard shortcuts
+alone. So for example, the user should be able to Alt + Shift + C to access the Change mode listbox. Also for the “New Game” link, the 'N'
+key is highlighted.
+
+
+<table style="border:1px black solid;" rows=2 cols=1> 
+	<tr>
+		<td style="text-color:#FFFFFF;background-color:red;">
+			<i>Undecided</i>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<i>Erm.. Alt + Shift + C...? Hasn't it traditionally been using the Alt key with the C key to access the listbox?
+
+Ya.. but what if there is a browser element that can be accessed using Alt + C..? Then the user might want to actually use that..
+but instead our app thinks he wants to change mode. So we use Alt + Shift + C, à la Wikipedia. But how we shall implement this is not known.
+
+Note that this has been marked as Undecided since we do not know how to implement it. That's all.. but we will be having keyboard shortcuts. Just 
+the sequence is undecided.</i>
+		</td>
+	</tr>
+</table>
+
+ * Once a new board is rendered, the game starts only when the user clicks on any tile on the board.
+ * The board shall also contain a field at the bottom to the left of the board. This field is actually the mine counter field, which
+displays the number of mines that the user will have to uncover. The field is initialized with the maximum number of mines for that mode.
+ * There shall be another field at the bottom on the right. This is the time counter field that displays the number of seconds that have elapsed
+since the game started. The field is initialized with the value '0'.
+ * Once the game starts (by the user clicking on a tile), the time counter field starts counting the seconds.
+ * The time counter shall continue its count until the user closes the browser window or starts a new game.
+ * The mine counter displays the count of tiles the user is yet to mark. (By default, the mine counter displays the total count of mines for
+that mode). As the game progresses, users can mark a tile they believe contains a mine by right-clicking on it, or pressing a Shift + Space
+on the keyboard. This will render a red flag icon over the tile. When the user marks a tile, then the mine counter value decreases by 1.
+ * In case the user finds that a tile marked 'suspect' is not really so, he can right-click (or press Shift + Space) again on the marked tile
+to unmark it. The red flag disappears and the mine counter value increases by 1.
+ * The user should mark atleast the maximum no. of tiles as there are mines for that mode for the system to validate the board. This statement
+might be confusing – basically, it says that when the user is in a particular mode, he will know that there are a specified number of mines
+for that mode. He thus must mark that many number of tiles on the board. Only then does the system assume that the user has 'finished' the game,
+and validates the user's tile markings.
+ * If the user has marked only those tiles that actually hid mines, then the user has finished the game successfully. We give no prizes for the
+user for completing the game nor do we maintain a list of rankings. That's because we want to implement the game for the thrill of it – we don't
+want to have some backend work too!!
+ * If the user has not marked only those tiles that actually hid mines, but has marked other tiles also, then the user has not finished the game
+successfully. The system informs the user that though he has marked the sufficient no of tiles, they are not correct and asks the user to
+consider the board again.
+
+<table style="border:1px black solid;" rows=2 cols=1> 
+	<tr>
+		<td style="text-color:#FFFFFF;background-color:red;">
+			<i>Undecided</i>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			The message for these scenarios...
+		</td>
+	</tr>
+</table>
+
+ * When the user clicks on any tile, the system determines if the tile hid a mine or not. If yes, the game ends then and there. The user
+is informed that the game is over, and a new board in the same mode is rendered.
+
+<table style="border:1px black solid;" rows=2 cols=1> 
+	<tr>
+		<td style="color:#FFFFFF;background-color:#000080;">
+			<i>Note</i>
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color:#4d4d4d;color:#FFFFFF;">
+			In case the very first tile the user clicked on hid a mine, then the system gives another chance to the user by re-
+
+rendering a different board. (Note: The system should not render the same board).
+		</td>
+	</tr>
+</table>
+
+ * If not, then clicking on the tile will display a number that indicates how many mines are present in the 8 cells that surround the tile
+that was clicked. If there are no mines, then nothing will be displayed. If there is 1 mine in the 8 surrounding cells, then '1' will be
+displayed.
+
+<table style="border:1px black solid;" rows=2 cols=1> 
+	<tr>
+		<td style="color:#FFFFFF;background-color:#000080;">
+			<i>Note</i>
+		</td>
+	</tr>
+	<tr>
+		<td style="background-color:#4d4d4d;color:#FFFFFF;">
+ # The keyboard shortcut for clicking on a mine is pressing the Space key.
+ # The user should also be able to move to specific tiles by using the arrow keys. By default, the default selected tile would be the
+ top-left key.
+ # As the user passes over each tile by using either the keyboard or the mouse, then the tile shall be highlighted. How it shall be
+ highlighted is undecided.
+		</td>
+	</tr>
+</table>
+
+ * If the tile that was clicked upon is at the edges of the board, then there will not be 8 tiles available. In such cases, the system
+shall “imagine” 8 squares around the clicked tile and will count the mines in the imagined squares. For example, if in the below figure,
+the user clicks on tile 1 (which is on the top-left of the board), then the system shall count tiles 2, 5 and 4 only.
+
+<center>
+	<table>
+		<tr>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+		</tr>
+	</table>
+</center>
+
+	If the user clicks on tile 8, then the system shall count mines 4, 5, 6, 7 and 9. This is because the system “imagines” squares below cells 7, 8 and 9.
+
+	If the user clicks on tile 5, then the system shall count mines 1, 2, 3, 4, 6, 7, 8 and 9.
+
+ * In case the tile the user clicks upon does not hide a mine or does not have any mines in its surrounding 8 cells, then the system shall
+reveal all surrounding cells that do not hold mines or cells that hide a number, as long as those cells are unmarked.
+
+	For example, consider the below game board , where tiles 1 to 5, 21 to 25, 6, 11, 16, 10, 15 and 20 hide mines. The other tiles do not hide any mines. In such a case, if the user clicks on tile 13, the system should reveal all those surrounding tiles that do not hold mines. This would mean revealing tiles 7 to 9, 12 to 14, and 17 to 19.
+
+<center>
+	<table>
+		<tr>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+			<td>10</td>
+		</tr>
+		<tr>
+			<td>11</td>
+			<td>12</td>
+			<td>13</td>
+			<td>14</td>
+			<td>15</td>
+		</tr>
+		<tr>
+			<td>16</td>
+			<td>17</td>
+			<td>18</td>
+			<td>19</td>
+			<td>20</td>
+		</tr>
+		<tr>
+			<td>21</td>
+			<td>22</td>
+			<td>23</td>
+			<td>24</td>
+			<td>25</td>
+		</tr>
+	</table>
+</center>
+
+	In the same board, assume that tiles 1 to 5, 6 to 10, 11, 12, 16, 17, 21 and 22 hide mines. Now if the user clicks on tile 25, the system shall show tiles 13 to 15, 18 to 20, and 23 to 25, since these are the surrounding tiles that do not hide mines or the tiles that hide a number.
+
+ * To help the user easily identify which keyboard shortcuts can be used for playing the game, the system shall at all times display a handy
+list of keyboard shortcuts on the bottom right of the page.
+ * Any errors generated shall be logged in a log file.
+
+
+= Summary list of features =
+
+This page lists the individual features of the shivaminesweeper game.
+
+a) 
+
+b) 
+
+c) 
+
+d) 
+
+e) 
+
+f) 
+
+
+
+
+
+
+
+
+
+= Nomenclature used =
+
+This page lists the various nomenclature in this document.
+
+a) Board – the game board. What else?
+
+b) Mines – Mines are bombs that the user will have to 'discover' by clicking on the tiles to reveal what lies underneath.
+
+c) Tiles – The game board is split into various cells, like a table of information is split into various cells. Each cell is known as a tile.
+
+d) Marking a tile – The user specifies a tile he believes contains a mine.
+
+e) Demark a tile – opposite of marking a tile.
+
+f) 
