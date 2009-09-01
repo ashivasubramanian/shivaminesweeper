@@ -1,3 +1,4 @@
+<%@ page errorPage="/pages/exception.jsp" %> 
 <html>
 	<head>
 		<title> Minesweeper </title>
@@ -14,10 +15,25 @@
 			
 			function unHide(cell) {
 				cell.style.color = "#000000";
+				/*gameTable = document.getElementById("gametable");
+				count = 0;
+				alert(gameTable.rows[0].cells.length);
+				alert(gameTable.rows[0].cells[0].innerText);
+				for (i = 0; i < gameTable.rows.length; i++) {
+					row = gameTable.rows[i];
+					for (j = 0 ; j < row.cells.length; j++) {
+						if (row.cells[j].innerText == 'B')
+					}
+					
+				}*/
+				if (cell.innerText == 'B') {
+					alert("game over..!!");
+					location.reload(true);
+				}
 			}
 		</script>
 	</head>
-	<body onload="javascript:hideCells();">
+	<body onload="javascript:hideCells();" style="font-family:Arial;font-size:10px;">
 		<center>
 			<table>
 				<tr>
@@ -28,7 +44,7 @@
 				<tr>
 					<td>
 						<table border=1 width=300>
-						<tbody style="background-color:cyan;">
+						<tbody style="background-color:cyan;" id=gametable>
 							<tr> <!-- Row 1 -->
 							<%
 								char row[] = ((char[][])session.getAttribute("gameboard"))[0];
