@@ -1,0 +1,28 @@
+body
+{
+	font-family: Arial;
+	font-size: 10pt;
+}
+
+.headerTable
+{
+	width: 100%;
+	border: 1px black solid;
+}
+
+.newGameCell
+{
+	text-align:right;
+	width:80%
+}
+
+.sameModeText
+{
+	font-weight:bold;
+}
+
+.board
+{
+	text-align:center;
+	background-color: cyan;
+}
