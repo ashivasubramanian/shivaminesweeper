@@ -14,6 +14,7 @@
 				<fileset dir="WEB-INF\lib">
 					<include name="*.jar"/>
 				</fileset>
+				<fileset dir="${tomcat.dir}\lib" includes="servlet-api.jar"/>
 			</classpath>
 		</javac>
 	</target>
@@ -26,7 +27,7 @@
 				<fileset dir="WEB-INF\lib">
 					<include name="*.jar"/>
 				</fileset>
-				<path path="minetest.jar"/>
+			<path path="minetest.jar"/>
 			</classpath>
 			<formatter type="plain" usefile="false"/>
 			<!--<batchtest>
@@ -39,7 +40,7 @@
 	</target>
 	<target name="build" description="Builds the WAR file necessary to deploy to the server." depends="unit_test">
 		<delete file="mine.war"/>
-		<war destfile="mine.war" webxml="WEB-INF\web.xml">
+		<war destfile="mine.war" webxml="WEB-INF\web.xml" manifest="META-INF\MANIFEST.MF">
 			<lib dir="WEB-INF\lib" includes="*.*"/>
 			<classes dir="WEB-INF\classes" includes="**\*.class" excludes="**\*Test*"/>
 			<zipfileset dir="pages" prefix="pages"/>
