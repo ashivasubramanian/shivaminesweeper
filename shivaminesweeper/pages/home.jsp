@@ -7,15 +7,19 @@
 		<table class=headerTable>
 			<tr>
 				<td class=newGameCell>
-					<a href="#">New Game</a>
+					<a href="javascript:alert(1);" title="Click to start a game in the same mode. Access key is n." accesskey=n>
+						New Game <!-- No need to under line the access key. It's already a link. -->
+					</a>
 					<br>
 					<span class=sameModeText>
 						(in same mode)
 					</span>
 				</td>
 				<td>
-					<label abbr="S" for=selectMode>Change mode:</span>
-					<select id=selectMode>
+					<label accesskey=C for=selectMode>
+						<span class=accessKey>C</span>hange mode:
+					</label>
+					<select id=selectMode title="Select a mode to generate a new game in that mode.">
 						<option>Beginner</option>
 						<option>Intermediate</option>
 						<option>Advanced</option>
