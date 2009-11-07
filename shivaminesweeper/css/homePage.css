@@ -7,18 +7,22 @@ body
 .headerTable
 {
 	width: 100%;
-	border: 1px black solid;
 }
 
 .newGameCell
 {
 	text-align:right;
-	width:80%
+	width:80%;
+	padding-right: 10px;
 }
 
 .sameModeText
 {
 	font-weight:bold;
+}
+
+.accessKey {
+	text-decoration: underline;
 }
 
 .board
