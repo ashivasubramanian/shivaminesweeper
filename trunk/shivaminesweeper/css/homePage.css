@@ -25,8 +25,10 @@ body
 	text-decoration: underline;
 }
 
-.board
+#board td
 {
 	text-align:center;
 	background-color: cyan;
+	border:1px solid black;
+	border-collapse:collapse;
 }
