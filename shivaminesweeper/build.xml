@@ -44,6 +44,7 @@
 			<classes dir="WEB-INF\classes" includes="**\*.class" excludes="**\*Test*"/>
 			<zipfileset dir="pages" prefix="pages"/>
 			<zipfileset dir="css" prefix="css"/>
+			<zipfileset dir="js" prefix="js"/>
 		</war>
 	</target>
 	<target name="deploy" description="Deploys the WAR file to the Tomcat server" depends="build">
