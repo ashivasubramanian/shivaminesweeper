@@ -21,7 +21,8 @@ body
 	font-weight:bold;
 }
 
-.accessKey {
+.accessKey
+{
 	text-decoration: underline;
 }
 
@@ -31,4 +32,16 @@ body
 	background-color: cyan;
 	border:1px solid black;
 	border-collapse:collapse;
+}
+
+.field
+{
+	text-align:center;
+	background-color: cyan;
+	border:1px solid black;
+}
+
+.fieldSpacer
+{
+	width:20%;
 }
