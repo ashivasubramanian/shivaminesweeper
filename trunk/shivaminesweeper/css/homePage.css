@@ -45,3 +45,18 @@ body
 {
 	width:20%;
 }
+
+#usage_div
+{
+	background-color:pink;
+	position:absolute;
+	left: 70%;
+	top: 60%;
+	width:300px;
+	height:200px;
+}
+
+#usage_div span
+{
+	font-weight:bold;
+}

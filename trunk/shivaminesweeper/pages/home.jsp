@@ -116,6 +116,7 @@
 					<td>&nbsp;</td>
 				</tr>
 			</table>
+
 			<table width=300>
 				<!-- Time counter and mine counter fields -->
 				<tr>
@@ -131,5 +132,21 @@
 			</table>
 		</center>
 		<!-- end of game board -->
+
+		<div id=usage_div>
+			<h3>Usage</h3>
+			<ul>
+				<li>
+					<span>Select a tile</span> - Mouse over it or use the arrow keys
+				</li>
+				<li>
+					<span>Mark/unmark a tile as suspect</span> - right click on it or Shift + spacebar 
+				</li>
+				<li>
+					<span>Reveal a tile</
+					span> - click on it or press the spacebar.
+				</li>
+			</ul>
+		</div>
 	</body>
 </html>
