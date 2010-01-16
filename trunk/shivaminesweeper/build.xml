@@ -19,7 +19,7 @@
 		</javac>
 	</target>
 	<target name="unit_test" depends="compile" description="Runs all unit tests.">
-		<jar destfile="minetest.jar">
+		<!--<jar destfile="minetest.jar">
 			<zipfileset dir="WEB-INF\classes" includes="**\*.class" />
 		</jar>
 		<junit haltOnFailure="yes" haltOnError="yes" printsummary="withOutAndErr">
@@ -35,7 +35,7 @@
 					<include name="**\*Test.class"/>
 				</fileset>
 			</batchtest>
-		</junit>
+		</junit>-->
 	</target>
 	<target name="build" description="Builds the WAR file necessary to deploy to the server." depends="unit_test">
 		<delete file="mine.war"/>
