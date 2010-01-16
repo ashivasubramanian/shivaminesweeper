@@ -1,6 +1,5 @@
 package home.minesweeper.board;
 
-import com.sun.xml.internal.bind.v2.TODO;
 
 /** 
  * Creates one (and only one) instance of the 
