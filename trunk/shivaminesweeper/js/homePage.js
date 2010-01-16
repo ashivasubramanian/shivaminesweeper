@@ -4,18 +4,15 @@ var column = 0;
 var mouseOverControl;
 
 function doEventBinding() {
-	$("#board td").bind("click", changeTileBackground);
+	$("#board td").bind("click", reveal);
 	$("#board td").bind("mouseover", highlight);
 	$("#board td").bind("mouseout", unhighlight);
-	if($.browser.mozilla) {
-		$(document).bind("keypress", determineAction);
-	} else if ($.browser.msie) {
-		$(document).bind("keydown", determineAction);
-	}
+	$(document).bind("keydown", determineAction);
+	//$("#selectMode").bind("change", changeMode); 
 }
 
-function changeTileBackground() {
-	$(this).css("background-color", "white");
+function reveal() {
+	revealCell(this);
 }
 
 function highlight() {
@@ -25,6 +22,10 @@ function highlight() {
 
 function unhighlight() {
 	unhighlightCell(this);
+}
+
+function revealCell(control) {
+	$(control).css("background-color", "white");
 }
 
 function highlightCell(control) {
@@ -51,7 +52,9 @@ function determineAction(event) {
 			}
 		}
 	}
-	if (event.keyCode == 37) { //Left arrow
+	if (event.keyCode == 32) { //space
+		revealCell(document.getElementById("board").rows[row].cells[column]);
+	} else if (event.keyCode == 37) { //Left arrow
 		unhighlightCell(document.getElementById("board").rows[row].cells[column]);
 		column--;
 		highlightCell(document.getElementById("board").rows[row].cells[column]);
@@ -70,3 +73,9 @@ function determineAction(event) {
 	}
 	mouseOverControl = document.getElementById("board").rows[row].cells[column];
 }
+
+
+/*function changeMode() {
+	document.forms[0].action = "createBoard?mode=" + this.value;
+	document.forms[0].submit();
+}*/
