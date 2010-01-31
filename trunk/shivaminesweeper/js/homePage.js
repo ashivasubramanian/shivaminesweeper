@@ -8,7 +8,7 @@ function doEventBinding() {
 	$("#board td").bind("mouseover", highlight);
 	$("#board td").bind("mouseout", unhighlight);
 	$(document).bind("keydown", determineAction);
-	//$("#selectMode").bind("change", changeMode); 
+	$("#selectMode").bind("change", changeMode); 
 }
 
 function reveal() {
@@ -75,7 +75,7 @@ function determineAction(event) {
 }
 
 
-/*function changeMode() {
+function changeMode() {
 	document.forms[0].action = "createBoard?mode=" + this.value;
 	document.forms[0].submit();
-}*/
+}
