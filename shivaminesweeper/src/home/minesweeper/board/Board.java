@@ -3,14 +3,6 @@ package home.minesweeper.board;
 import java.util.List;
 
 /**
- * Represents a list of the various modes that a board can hold. Mostly used as
- * the parameter to the <code>Board</code> class constructor.
- * 
- * @author Shivasubramanian
- */
-enum BoardModes {BEGINNER, INTERMEDIATE, ADVANCED}
-
-/**
  * Represents the board that is currently being played by the user.
  * 
  * @author Shivasubramanian
@@ -39,7 +31,9 @@ public class Board {
 	 * @param mode One of the values of the <code>BoardModes</code> enum.
 	 */
 	public Board(BoardModes mode) {
-		System.out.println("mode value: " + mode.ordinal());
+		int width = mode.getWidth();
+		int height = mode.getHeight();
+		this.rows = new int[width][height];
 	}
 
 	/**
