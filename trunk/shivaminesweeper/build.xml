@@ -17,9 +17,10 @@
 				<fileset dir="${tomcat.dir}\lib" includes="servlet-api.jar"/>
 			</classpath>
 		</javac>
+		<copy file="src\struts.xml" todir="WEB-INF\classes"/>
 	</target>
 	<target name="unit_test" depends="compile" description="Runs all unit tests.">
-		<!--<jar destfile="minetest.jar">
+		<jar destfile="minetest.jar">
 			<zipfileset dir="WEB-INF\classes" includes="**\*.class" />
 		</jar>
 		<junit haltOnFailure="yes" haltOnError="yes" printsummary="withOutAndErr">
@@ -35,13 +36,14 @@
 					<include name="**\*Test.class"/>
 				</fileset>
 			</batchtest>
-		</junit>-->
+		</junit>
 	</target>
 	<target name="build" description="Builds the WAR file necessary to deploy to the server." depends="unit_test">
 		<delete file="mine.war"/>
 		<war destfile="mine.war" webxml="WEB-INF\web.xml" manifest="META-INF\MANIFEST.MF">
+			<webinf dir="WEB-INF" includes="struts.xml"/>
 			<lib dir="WEB-INF\lib" includes="*.*"/>
-			<classes dir="WEB-INF\classes" includes="**\*.class" excludes="**\*Test*"/>
+			<classes dir="WEB-INF\classes" includes="**\*.class,struts.xml" excludes="**\*Test*"/>
 			<zipfileset dir="pages" prefix="pages"/>
 			<zipfileset dir="css" prefix="css"/>
 			<zipfileset dir="js" prefix="js"/>
