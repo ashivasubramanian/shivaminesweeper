@@ -8,26 +8,26 @@ package home.minesweeper.board;
  */
 public enum BoardModes {
 	
-	BEGINNER(9, 9, 9),
+	BEGINNER(9, 9, 10),
 	INTERMEDIATE(16, 16, 40),
 	ADVANCED(16, 30, 99);
 
-	private int width;
-	private int height;
+	private int rows;
+	private int columns;
 	private int mineCount;
 	
-	BoardModes(int width, int height, int mineCount) {
-		this.width = width;
-		this.height = height;
+	BoardModes(int rows, int columns, int mineCount) {
+		this.rows = rows;
+		this.columns = columns;
 		this.mineCount = mineCount;
 	}
 	
-	public int getWidth() {
-		return this.width;
+	public int getRows() {
+		return this.rows;
 	}
 	
-	public int getHeight() {
-		return this.height;
+	public int getColumns() {
+		return this.columns;
 	}
 	
 	public int getMineCount() {
