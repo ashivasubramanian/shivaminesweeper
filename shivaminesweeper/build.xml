@@ -9,7 +9,9 @@
 	</target>
 	<target name="compile" description="Compiles all the java files.">
 		<mkdir dir="WEB-INF\classes"/>
-		<javac srcdir="src" destdir="WEB-INF\classes">
+		<javac destdir="WEB-INF\classes">
+			<src path="src"/>
+			<src path="tests"/>
 			<classpath>
 				<fileset dir="WEB-INF\lib">
 					<include name="*.jar"/>
