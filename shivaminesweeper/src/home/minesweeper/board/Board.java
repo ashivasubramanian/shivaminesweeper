@@ -1,6 +1,7 @@
 package home.minesweeper.board;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the board that is currently being played by the user.
@@ -23,7 +24,7 @@ public class Board {
 	 * form, "<code>row</code>,<code>column</code>".
 	 * @uml.property name="markedTiles"
 	 */
-	private List<String> markedTiles;
+	private Map<String, Integer> markedTiles;
 	
 	/**
 	 * Constructs a <code>Board</code> instance and initializes the board.
@@ -31,9 +32,10 @@ public class Board {
 	 * @param mode One of the values of the <code>BoardModes</code> enum.
 	 */
 	public Board(BoardModes mode) {
-		int width = mode.getWidth();
-		int height = mode.getHeight();
-		this.rows = new int[width][height];
+		int rowCount = mode.getRows();
+		int columnCount = mode.getColumns();
+		this.rows = new int[rowCount][columnCount];
+		markedTiles = new HashMap<String, Integer>();
 	}
 
 	/**
@@ -77,8 +79,8 @@ public class Board {
 	 * @param row the row the tile is present in.
 	 * @param column the column the tile is present in.
 	 */
-	public void markTile(String row, String column) {
-		markedTiles.add(row + "," + column); 
+	public void markTile(int row, int column, int tileValue) {
+		markedTiles.put(row + "," + column, tileValue);
 	}
 
 	/**
@@ -90,7 +92,7 @@ public class Board {
 	 * @param row the row the tile is present in.
 	 * @param column the column the tile is present in.
 	 */
-	public void unmarkTile(String row, String column) {
+	public void unmarkTile(int row, int column) {
 		markedTiles.remove(row + "," + column); 
 	}
 	
@@ -98,7 +100,7 @@ public class Board {
 		return rows;
 	}
 	
-	public List<String> getMarkedTiles() {
+	public Map<String, Integer> getMarkedTiles() {
 		return markedTiles;
 	}
 }
