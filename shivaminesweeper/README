@@ -1,0 +1,13 @@
+ShivaMinesweeper is a project written by me, Shivasubramanian A
+(http://ashivasubramanian.blogspot.com) to enhance/showcase my skills in Java,
+J2EE and Ruby technologies. Feel free to send across any bouquets as well as
+brickbats as I am very much interested in increasing my coding skills.
+
+HOW TO SETUP SHIVAMINESWEEPER:
+Currently, the application is coded using Java/J2EE and hence the steps
+described below are for deployment into a J2EE server:
+
+1) Download the file, mine_release0.2.war from the site.
+2) To deploy the project to your server, use the ant deploy command. However,
+the project supports only Apache Tomcat web server.
+3) Use the URL, http://localhost:8080/mine/ to access the application.
