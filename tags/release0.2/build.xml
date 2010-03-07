@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="shivaminesweeper" default="deploy">
+	<property name="tomcat.dir" value="e:\apache-tomcat-6.0.18"/>
+	
+	<target name="clean" description="Deletes all files (if any) that were previously created by this build.xml and generates them by running the tasks again.">
+		<delete dir="WEB-INF\classes"/>
+		<delete file="minetest.jar"/>
+		<delete file="mine.war"/>
+	</target>
+	<target name="compile" description="Compiles all the java files.">
+		<mkdir dir="WEB-INF\classes"/>
+		<javac destdir="WEB-INF\classes">
+			<src path="src"/>
+			<src path="tests"/>
+			<classpath>
+				<fileset dir="WEB-INF\lib">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="${tomcat.dir}\lib" includes="servlet-api.jar"/>
+			</classpath>
+		</javac>
+		<copy file="src\struts.xml" todir="WEB-INF\classes"/>
+	</target>
+	<target name="unit_test" depends="compile" description="Runs all unit tests.">
+		<jar destfile="minetest.jar">
+			<zipfileset dir="WEB-INF\classes" includes="**\*.class" />
+		</jar>
+		<junit haltOnFailure="yes" haltOnError="yes" printsummary="withOutAndErr">
+			<classpath>
+				<fileset dir="WEB-INF\lib">
+					<include name="*.jar"/>
+				</fileset>
+			<path path="minetest.jar"/>
+			</classpath>
+			<formatter type="plain" usefile="false"/>
+			<batchtest>
+				<fileset dir="WEB-INF\classes">
+					<include name="**\*Test.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	<target name="build" description="Builds the WAR file necessary to deploy to the server." depends="unit_test">
+		<delete file="mine.war"/>
+		<war destfile="mine.war" webxml="WEB-INF\web.xml" manifest="META-INF\MANIFEST.MF">
+			<webinf dir="WEB-INF" includes="struts.xml"/>
+			<lib dir="WEB-INF\lib" includes="*.*"/>
+			<classes dir="WEB-INF\classes" includes="**\*.class,struts.xml" excludes="**\*Test*"/>
+			<zipfileset dir="pages" prefix="pages"/>
+			<zipfileset dir="css" prefix="css"/>
+			<zipfileset dir="js" prefix="js"/>
+		</war>
+	</target>
+	<target name="deploy" description="Deploys the WAR file to the Tomcat server" depends="build">
+		<copy file="mine.war" todir="${tomcat.dir}\webapps" overwrite="true"/>
+	</target>
+</project>
