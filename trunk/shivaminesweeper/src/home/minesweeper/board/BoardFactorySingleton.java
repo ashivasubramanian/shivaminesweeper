@@ -121,148 +121,46 @@ final public class BoardFactorySingleton {
 		 */
 		private int howManyMinesSurroundThisCell(Board board, int currentRow,
 				int currentColumn) {
-			int mineCount = 0;
-			if (currentRow == 0) {
-				if (currentColumn == 0) {
-					if (board.getRows()[currentRow][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn] == -1) {
-						mineCount++;
-					}
-				} else if (currentColumn == board.getRows()[0].length - 1) {
-					if (board.getRows()[currentRow][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn] == -1) {
-						mineCount++;
-					}
-				} else if (currentColumn < board.getRows()[0].length - 1) {
-					if (board.getRows()[currentRow][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn + 1] == -1) {
-						mineCount++;
-					}
+			int sumOfBombs = 0;
+			int rows[][] = board.getRows();
+			int rowIndex = board.getMode().getRows() - 1;
+			int columnIndex = board.getMode().getColumns() - 1;
+			//Do cells on either side of the current cell have bombs?
+			if (currentColumn > 0) {
+				sumOfBombs += rows[currentRow][currentColumn - 1] == -1? 1 : 0;
+			}
+			if (currentColumn < columnIndex) {
+				sumOfBombs += rows[currentRow][currentColumn + 1] == -1? 1 : 0;
+			}
+			
+			//Do cells to the upper left, upper right and directly above our cell
+			//have bombs?
+			if (currentRow > 0) {
+				if (currentColumn > 0) {
+					sumOfBombs +=
+						rows[currentRow - 1][currentColumn - 1] == -1? 1 : 0;
+				}
+				sumOfBombs += rows[currentRow - 1][currentColumn] == -1? 1 : 0;
+				if (currentColumn < columnIndex) {
+					sumOfBombs +=
+						rows[currentRow - 1][currentColumn + 1] == -1? 1 : 0;
 				}
 			}
 			
-			if (currentRow == board.getRows().length - 1) {
-				if (currentColumn == 0) {
-					if (board.getRows()[currentRow - 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-				} else if (currentColumn == board.getRows()[0].length - 1) {
-					if (board.getRows()[currentRow][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn] == -1) {
-						mineCount++;
-					}
-				} else if (currentColumn < board.getRows()[0].length - 1) {
-					if (board.getRows()[currentRow][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn + 1] == -1) {
-						mineCount++;
-					}
+			//Do cells to the bottom left, bottom right and directly below our cell
+			//have bombs?
+			if (currentRow < rowIndex) {
+				if (currentColumn > 0) {
+					sumOfBombs +=
+						rows[currentRow + 1][currentColumn - 1] == -1? 1 : 0;
+				}
+				sumOfBombs += rows[currentRow + 1][currentColumn] == -1? 1 : 0;
+				if (currentColumn < columnIndex) {
+					sumOfBombs +=
+						rows[currentRow + 1][currentColumn + 1] == -1 ? 1 : 0;
 				}
 			}
-			
-			if (currentRow > 0 && currentRow < board.getRows().length - 1) {
-				if (currentColumn == 0) {
-					if (board.getRows()[currentRow - 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn] == -1) {
-						mineCount++;
-					}
-				} else if (currentColumn == board.getRows()[0].length - 1) {
-					if (board.getRows()[currentRow - 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn] == -1) {
-						mineCount++;
-					}
-				} else if (currentColumn < board.getRows()[0].length - 1) {
-					if (board.getRows()[currentRow - 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow - 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn - 1] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn] == -1) {
-						mineCount++;
-					}
-					if (board.getRows()[currentRow + 1][currentColumn + 1] == -1) {
-						mineCount++;
-					}
-				}
-			}
-			return mineCount;
+			return sumOfBombs;
 		}
 	}
 }
