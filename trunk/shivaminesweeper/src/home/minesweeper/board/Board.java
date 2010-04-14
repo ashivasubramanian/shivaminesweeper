@@ -18,6 +18,7 @@ public class Board {
 	 * @uml.property name="rows" multiplicity="(0 -1)" dimension="2"
 	 */
 	private int[][] rows;
+
 	/** 
 	 * Stores the list of tiles that the user has marked. Marking means that the
 	 * user believes that the tiles hide mines. Each entry in the list is of the
@@ -25,6 +26,11 @@ public class Board {
 	 * @uml.property name="markedTiles"
 	 */
 	private Map<String, Integer> markedTiles;
+	
+	/**
+	 * Stores the mode in which the board is currently rendered in.
+	 */
+	private BoardModes mode;
 	
 	/**
 	 * Constructs a <code>Board</code> instance and initializes the board.
@@ -36,6 +42,7 @@ public class Board {
 		int columnCount = mode.getColumns();
 		this.rows = new int[rowCount][columnCount];
 		markedTiles = new HashMap<String, Integer>();
+		this.mode = mode;
 	}
 
 	/**
@@ -102,5 +109,13 @@ public class Board {
 	
 	public Map<String, Integer> getMarkedTiles() {
 		return markedTiles;
+	}
+	
+	/**
+	 * Returns the mode in which the board has been rendered.
+	 * @return an instance of <code>BoardModes</code>
+	 */
+	public BoardModes getMode() {
+		return mode;
 	}
 }
