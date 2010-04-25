@@ -1,5 +1,6 @@
 package home.minesweeper.board;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,11 +39,113 @@ public class Board {
 	 * @param mode One of the values of the <code>BoardModes</code> enum.
 	 */
 	public Board(BoardModes mode) {
+		this.mode = mode;
+		this.rows = new int[mode.getRows()][mode.getColumns()];
+		markedTiles = new HashMap<String, Integer>();
+		fillRequiredCellsWithMines(mode);
+		fillNonMineCellsWithNumbers(mode);
+	}
+
+	/**
+	 * Randomly populates cells with mines
+	 * 
+	 * @param board an instance of <code>Board</code> which is to be
+	 *              populated with mines.
+	 * @param mode  the mode in which <code>board</code> has been generated.
+	 */
+	private void fillRequiredCellsWithMines(BoardModes mode) {
+		SecureRandom random = new SecureRandom();
 		int rowCount = mode.getRows();
 		int columnCount = mode.getColumns();
-		this.rows = new int[rowCount][columnCount];
-		markedTiles = new HashMap<String, Integer>();
-		this.mode = mode;
+		int mineCounter = 0;
+		while (mineCounter < mode.getMineCount()) { 
+			for (int i = 0; i < rowCount; i++) {
+				for (int j = 0; j < columnCount; j++) {
+					if (random.nextBoolean()) {
+						rows[i][j] = -1;
+						mineCounter++;
+						if (mineCounter == mode.getMineCount()) return;
+					}
+				}
+			}
+		}
+	}
+
+	/** 
+	 * Determines which are the non-mine cells and then fills up those cells
+	 * with the number of mines that are present in the 8 cells that
+	 * surround them.
+	 * 
+	 * @param board an instance of <code>Board</code> which has been 
+	 *              populated with mines and needs its non-mine cells to be
+	 *              filled up.
+	 * @param mode the mode in which <code>board</code> has been generated.
+	 */
+	private void fillNonMineCellsWithNumbers(BoardModes mode){
+		int rowCount = mode.getRows();
+		int columnCount = mode.getColumns();
+		for (int i = 0; i < rowCount; i++) {
+			for (int j = 0; j < columnCount; j++) {
+				if (rows[i][j] != -1) {
+					rows[i][j]
+					    = howManyMinesSurroundThisCell(i, j);
+				}
+			}
+		}
+	}
+										
+	/** 
+	 * Determines the count of mines in the 8 cells that surround the cell
+	 * denoted by <code>currentRow</code> and <code>currentColumn</code>.
+	 * 
+	 * @param board an instance of <code>Board</code> which has been 
+	 *              populated with mines and needs its non-mine cells to be
+	 *              filled up.
+	 * @param currentRow the row in which the cell resides
+	 * @param currentColumn the column in which the cell resides
+	 * @return the count of mines.
+	 */
+	private int howManyMinesSurroundThisCell(int currentRow,
+			int currentColumn) {
+		int sumOfBombs = 0;
+		int rowIndex = mode.getRows() - 1;
+		int columnIndex = mode.getColumns() - 1;
+		//Do cells on either side of the current cell have bombs?
+		if (currentColumn > 0) {
+			sumOfBombs += rows[currentRow][currentColumn - 1] == -1? 1 : 0;
+		}
+		if (currentColumn < columnIndex) {
+			sumOfBombs += rows[currentRow][currentColumn + 1] == -1? 1 : 0;
+		}
+		
+		//Do cells to the upper left, upper right and directly above our cell
+		//have bombs?
+		if (currentRow > 0) {
+			if (currentColumn > 0) {
+				sumOfBombs +=
+					rows[currentRow - 1][currentColumn - 1] == -1? 1 : 0;
+			}
+			sumOfBombs += rows[currentRow - 1][currentColumn] == -1? 1 : 0;
+			if (currentColumn < columnIndex) {
+				sumOfBombs +=
+					rows[currentRow - 1][currentColumn + 1] == -1? 1 : 0;
+			}
+		}
+		
+		//Do cells to the bottom left, bottom right and directly below our cell
+		//have bombs?
+		if (currentRow < rowIndex) {
+			if (currentColumn > 0) {
+				sumOfBombs +=
+					rows[currentRow + 1][currentColumn - 1] == -1? 1 : 0;
+			}
+			sumOfBombs += rows[currentRow + 1][currentColumn] == -1? 1 : 0;
+			if (currentColumn < columnIndex) {
+				sumOfBombs +=
+					rows[currentRow + 1][currentColumn + 1] == -1 ? 1 : 0;
+			}
+		}
+		return sumOfBombs;
 	}
 
 	/**
