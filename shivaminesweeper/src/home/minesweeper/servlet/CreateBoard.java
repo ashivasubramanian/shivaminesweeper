@@ -1,9 +1,7 @@
 package home.minesweeper.servlet;
 
 import home.minesweeper.board.Board;
-import home.minesweeper.board.BoardFactorySingleton;
 import home.minesweeper.board.BoardModes;
-import home.minesweeper.board.BoardFactorySingleton.BoardFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +42,9 @@ public class CreateBoard implements ServletRequestAware {
 		modes.add(BoardModes.ADVANCED.toString());
 		request.setAttribute("modes", modes);
 
-		BoardFactory boardFactory = BoardFactorySingleton.getBoardFactory();
-		Board board = boardFactory.createNewBoard(boardMode);
+		/*BoardFactory boardFactory = BoardFactorySingleton.getBoardFactory();
+		Board board = boardFactory.createNewBoard(boardMode);*/
+		Board board = new Board(boardMode);
 		request.getSession().setAttribute("board", board);
 		return result;
 	}
