@@ -39,6 +39,10 @@ public class Board {
 	 * @param mode One of the values of the <code>BoardModes</code> enum.
 	 */
 	public Board(BoardModes mode) {
+		if(mode == null) {
+			throw new IllegalArgumentException(
+				"Mode passed in as parameter cannot be null!!");
+		}
 		this.mode = mode;
 		this.rows = new int[mode.getRows()][mode.getColumns()];
 		markedTiles = new HashMap<String, Integer>();
@@ -54,6 +58,7 @@ public class Board {
 	 * @param mode  the mode in which <code>board</code> has been generated.
 	 */
 	private void fillRequiredCellsWithMines(BoardModes mode) {
+		assert mode != null : "Mode is null in fillRequiredCellsWithMines.";
 		SecureRandom random = new SecureRandom();
 		int rowCount = mode.getRows();
 		int columnCount = mode.getColumns();
@@ -81,7 +86,8 @@ public class Board {
 	 *              filled up.
 	 * @param mode the mode in which <code>board</code> has been generated.
 	 */
-	private void fillNonMineCellsWithNumbers(BoardModes mode){
+	private void fillNonMineCellsWithNumbers(BoardModes mode) {
+		assert mode != null : "Mode is null in fillNonMineCellsWithNumbers.";
 		int rowCount = mode.getRows();
 		int columnCount = mode.getColumns();
 		for (int i = 0; i < rowCount; i++) {
@@ -107,6 +113,8 @@ public class Board {
 	 */
 	private int howManyMinesSurroundThisCell(int currentRow,
 			int currentColumn) {
+		assert currentRow > -1 : "Row is negative in howManyMinesSurroundThisCell";
+		assert currentColumn > -1 : "Column is negative in howManyMinesSurroundThisCell";
 		int sumOfBombs = 0;
 		int rowIndex = mode.getRows() - 1;
 		int columnIndex = mode.getColumns() - 1;
@@ -158,6 +166,12 @@ public class Board {
 	 * @return the contents of the cell.
 	 */
 	public int revealCell(int row, int column) {
+		if (row > -1) {
+			throw new IllegalArgumentException("Row cannot be negative!!");
+		}
+		if (column > -1) {
+			throw new IllegalArgumentException("Column cannot be negative!!");
+		}
 		return rows[row][column];
 	}
 
@@ -182,12 +196,11 @@ public class Board {
 
 	/**
 	 * Adds the tile specified by <code>row</code> and <code>column</code> to
-	 * the marked tiles list. The parameters are <code>String</code>s since the
-	 * list stores values as "<code>row</code>,<code>column</code>", and on
-	 * server submit, the values are <code>String</code>s anyway.
+	 * the marked tiles list.
 	 * 
 	 * @param row the row the tile is present in.
 	 * @param column the column the tile is present in.
+	 * @param tileValue the value of the cell behind the tile.
 	 */
 	public void markTile(int row, int column, int tileValue) {
 		markedTiles.put(row + "," + column, tileValue);
@@ -195,9 +208,7 @@ public class Board {
 
 	/**
 	 * Removes the tile specified by <code>row</code> and <code>column</code>
-	 * from the marked tiles list. The parameters are <code>String</code>s since
-	 * the list stores values as "<code>row</code>,<code>column</code>", and on
-	 * server submit, the values are <code>String</code>s anyway.
+	 * from the marked tiles list.
 	 * 
 	 * @param row the row the tile is present in.
 	 * @param column the column the tile is present in.
@@ -206,16 +217,28 @@ public class Board {
 		markedTiles.remove(row + "," + column); 
 	}
 	
+	/**
+	 * Returns a rows array that contains the mine count for each tile.
+	 * 
+	 * @return the rows array
+	 */
 	public int[][] getRows() {
 		return rows;
 	}
 	
+	/**
+	 * Returns a <code>Map</code> that lists those tiles that have been marked
+	 * by the user as those that contain mines.
+	 * 
+	 * @return the tiles that have been marked by the user 
+	 */
 	public Map<String, Integer> getMarkedTiles() {
 		return markedTiles;
 	}
 	
 	/**
 	 * Returns the mode in which the board has been rendered.
+	 * 
 	 * @return an instance of <code>BoardModes</code>
 	 */
 	public BoardModes getMode() {
