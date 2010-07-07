@@ -21,8 +21,18 @@ import org.apache.struts2.interceptor.ServletRequestAware;
  */
 public class CreateBoard implements ServletRequestAware {
 	
+	/**
+	 * An instance of <code>HttpServletRequest</code> that represents the 
+	 * request.
+	 */
 	HttpServletRequest request;
 	
+	/**
+	 * The <code>execute()</code> method of Struts 2. Determines the mode of
+	 * the board requested and renders that board.
+	 * 
+	 * @return the page to move to once execution is done.
+	 */
 	public String execute() {
 		
 		String mode = request.getParameter("mode").toUpperCase();
@@ -42,13 +52,16 @@ public class CreateBoard implements ServletRequestAware {
 		modes.add(BoardModes.ADVANCED.toString());
 		request.setAttribute("modes", modes);
 
-		/*BoardFactory boardFactory = BoardFactorySingleton.getBoardFactory();
-		Board board = boardFactory.createNewBoard(boardMode);*/
 		Board board = new Board(boardMode);
 		request.getSession().setAttribute("board", board);
 		return result;
 	}
 	
+	/**
+	 * Setter method to set the request instance.
+	 * 
+	 * @param req the request instance to be set.
+	 */
 	public void setServletRequest(HttpServletRequest req) {
 		request = req;
 	}
