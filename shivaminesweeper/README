@@ -8,6 +8,8 @@ Currently, the application is coded using Java/J2EE and hence the steps
 described below are for deployment into a J2EE server:
 
 1) Download the file, mine_release0.2.zip from the site.
-2) To deploy the project to your server, use the ant deploy command. However,
-the project supports only Apache Tomcat web server.
+2) To deploy the project to your server, use the ant deploy command. I developed this
+application on Apache Tomcat and hence the ant task assumes Tomcat deployment.
+If you are trying to deploy to a different server, then use the server's GUI to 
+deploy the JAR file or reference the server's documentation.
 3) Use the URL, http://localhost:8080/mine/ to access the application.
