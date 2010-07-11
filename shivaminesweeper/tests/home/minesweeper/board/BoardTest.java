@@ -15,14 +15,12 @@ public class BoardTest {
 	 */
 	@Test
 	public void beginnerModeShallHave10Mines() {
-		/*Board board = BoardFactorySingleton.getBoardFactory()
-			.createNewBoard(BoardModes.BEGINNER);*/
 		Board board = new Board(BoardModes.BEGINNER);
 		int mineCount = 0;
-		int rows[][] = board.getRows();
+		Cell rows[][] = board.getRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows[i].length; j++) {
-				if (rows[i][j] == -1) mineCount++;
+				if (rows[i][j].getTileValue() == -1) mineCount++;
 			}
 		}
 		assertEquals("Mine count is not 10", 10, mineCount);
@@ -31,15 +29,14 @@ public class BoardTest {
 	/**
 	 * The board generated in intermediate mode shall have at the max 40 mines.
 	 */
+	@Test
 	public void intermediateModeShallHave40Mines() {
-		/*Board board = BoardFactorySingleton.getBoardFactory()
-			.createNewBoard(BoardModes.INTERMEDIATE);*/
 		Board board = new Board(BoardModes.INTERMEDIATE);
 		int mineCount = 0 ;
-		int rows[][] = board.getRows();
+		Cell rows[][] = board.getRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows[i].length; j++) {
-				if (rows[i][j] == -1) mineCount++;
+				if (rows[i][j].getTileValue() == -1) mineCount++;
 			}
 		}
 		assertEquals("Mine count is not 40", 40, mineCount);
@@ -48,15 +45,14 @@ public class BoardTest {
 	/**
 	 * The board generated in advanced mode shall have at the max 99 mines.
 	 */
+	@Test
 	public void advancedModeShallHave99Mines() {
-		/*Board board = BoardFactorySingleton.getBoardFactory()
-			.createNewBoard(BoardModes.ADVANCED);*/
 		Board board = new Board(BoardModes.ADVANCED);
 		int mineCount = 0 ;
-		int rows[][] = board.getRows();
+		Cell rows[][] = board.getRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows[i].length; j++) {
-				if (rows[i][j] == -1) mineCount++;
+				if (rows[i][j].getTileValue() == -1) mineCount++;
 			}
 		}
 		assertEquals("Mine count is not 99", 99, mineCount);
@@ -69,15 +65,26 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForCentralTile() {
-		/*BoardFactory factory = BoardFactorySingleton.getBoardFactory();
-		Board board = factory.createNewBoard(BoardModes.BEGINNER);*/
 		Board board = new Board(BoardModes.BEGINNER);
-		int rows[][] = {
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, -1, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}
+		Cell rows[][] = {
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(-1, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)}
 		};
 		
 		try {
@@ -85,25 +92,19 @@ public class BoardTest {
 			field.setAccessible(true);
 			field.set(board, rows);
 			
-			/*Method method = factory.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers", Board.class,
-					BoardModes.class);*/
-			Method method = board.getClass()
-			.getDeclaredMethod("fillNonMineCellsWithNumbers",
-				BoardModes.class);
+			Method method = board.getClass().getDeclaredMethod("fillNonMineCellsWithNumbers",BoardModes.class);
 			method.setAccessible(true);
-			//method.invoke(factory, board, BoardModes.BEGINNER);
 			method.invoke(board, BoardModes.BEGINNER);
 			
-			int rowsAfterExec[][] = board.getRows();
+			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for tile above",
-					1, rowsAfterExec[1][4]);
+					1, rowsAfterExec[1][4].getTileValue());
 			assertEquals("tile calculation error for left tile",
-					1, rowsAfterExec[2][3]);
+					1, rowsAfterExec[2][3].getTileValue());
 			assertEquals("tile calculation error for right tile",
-					1, rowsAfterExec[2][5]);
+					1, rowsAfterExec[2][5].getTileValue());
 			assertEquals("tile calculation error for tile below",
-					1, rowsAfterExec[3][4]);
+					1, rowsAfterExec[3][4].getTileValue());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -125,17 +126,28 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForTopLeftTile() {
-		/*BoardFactory factory = BoardFactorySingleton.getBoardFactory();
-		Board board = factory.createNewBoard(BoardModes.BEGINNER);*/
 		Board board = new Board(BoardModes.BEGINNER);
-		int rows[][] = {
-			{-1, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}
+		Cell rows[][] = {
+			{new Cell(-1, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)}
 		};
-		
+
 		try {
 			Field field = board.getClass().getDeclaredField("rows");
 			field.setAccessible(true);
@@ -151,13 +163,13 @@ public class BoardTest {
 			//method.invoke(factory, board, BoardModes.BEGINNER);
 			method.invoke(board, BoardModes.BEGINNER);
 			
-			int rowsAfterExec[][] = board.getRows();
+			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for right tile",
-					1, rowsAfterExec[0][1]);
+					1, rowsAfterExec[0][1].getTileValue());
 			assertEquals("Mine calculation error for tile below",
-					1, rowsAfterExec[1][0]);
+					1, rowsAfterExec[1][0].getTileValue());
 			assertEquals("Mine calculation error for below right tile",
-					1, rowsAfterExec[1][1]);
+					1, rowsAfterExec[1][1].getTileValue());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -179,15 +191,26 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForTopRightTile() {
-		/*BoardFactory factory = BoardFactorySingleton.getBoardFactory();
-		Board board = factory.createNewBoard(BoardModes.BEGINNER);*/
 		Board board = new Board(BoardModes.BEGINNER);
-		int rows[][] = {
-			{0, 0, 0, 0, 0, 0, 0, 0, -1}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}
+		Cell rows[][] = {
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(-1, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)}
 		};
 		
 		try {
@@ -195,23 +218,19 @@ public class BoardTest {
 			field.setAccessible(true);
 			field.set(board, rows);
 			
-			/*Method method = factory.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers", Board.class,
-					BoardModes.class);*/
 			Method method = board.getClass()
 				.getDeclaredMethod("fillNonMineCellsWithNumbers",
 					BoardModes.class);
 			method.setAccessible(true);
-			//method.invoke(factory, board, BoardModes.BEGINNER);
 			method.invoke(board, BoardModes.BEGINNER);
 			
-			int rowsAfterExec[][] = board.getRows();
+			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for left tile",
-					1, rowsAfterExec[0][7]);
+					1, rowsAfterExec[0][7].getTileValue());
 			assertEquals("Mine calculation error for tile below",
-					1, rowsAfterExec[1][8]);
+					1, rowsAfterExec[1][8].getTileValue());
 			assertEquals("Mine calculation error for below left tile",
-					1, rowsAfterExec[1][7]);
+					1, rowsAfterExec[1][7].getTileValue());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -234,15 +253,26 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForBottomLeftTile() {
-		/*BoardFactory factory = BoardFactorySingleton.getBoardFactory();
-		Board board = factory.createNewBoard(BoardModes.BEGINNER);*/
 		Board board = new Board(BoardModes.BEGINNER);
-		int rows[][] = {
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{-1, 0, 0, 0, 0, 0, 0, 0, 0}
+		Cell rows[][] = {
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(-1, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)}
 		};
 		
 		try {
@@ -250,23 +280,19 @@ public class BoardTest {
 			field.setAccessible(true);
 			field.set(board, rows);
 			
-			/*Method method = factory.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers", Board.class,
-					BoardModes.class);*/
 			Method method = board.getClass()
 				.getDeclaredMethod("fillNonMineCellsWithNumbers",
 					BoardModes.class);
 			method.setAccessible(true);
-			//method.invoke(factory, board, BoardModes.BEGINNER);
 			method.invoke(board, BoardModes.BEGINNER);
 			
-			int rowsAfterExec[][] = board.getRows();
+			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for left tile",
-					1, rowsAfterExec[7][0]);
+					1, rowsAfterExec[7][0].getTileValue());
 			assertEquals("Mine calculation error for tile below",
-					1, rowsAfterExec[7][1]);
+					1, rowsAfterExec[7][1].getTileValue());
 			assertEquals("Mine calculation error for below left tile",
-					1, rowsAfterExec[8][1]);
+					1, rowsAfterExec[8][1].getTileValue());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -288,15 +314,26 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForBottomRightTile() {
-		/*BoardFactory factory = BoardFactorySingleton.getBoardFactory();
-		Board board = factory.createNewBoard(BoardModes.BEGINNER);*/
 		Board board = new Board(BoardModes.BEGINNER);
-		int rows[][] = {
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, -1}
+		Cell rows[][] = {
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
+			{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+				new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(-1, false)}
 		};
 		
 		try {
@@ -304,23 +341,19 @@ public class BoardTest {
 			field.setAccessible(true);
 			field.set(board, rows);
 			
-			/*Method method = factory.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers", Board.class,
-					BoardModes.class);*/
 			Method method = board.getClass()
 				.getDeclaredMethod("fillNonMineCellsWithNumbers",
 					BoardModes.class);
 			method.setAccessible(true);
-			//method.invoke(factory, board, BoardModes.BEGINNER);
 			method.invoke(board, BoardModes.BEGINNER);
 			
-			int rowsAfterExec[][] = board.getRows();
+			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for top left tile",
-					1, rowsAfterExec[7][7]);
+					1, rowsAfterExec[7][7].getTileValue());
 			assertEquals("Mine calculation error for left tile",
-					1, rowsAfterExec[8][7]);
+					1, rowsAfterExec[8][7].getTileValue());
 			assertEquals("Mine calculation error for top tile",
-					1, rowsAfterExec[7][8]);
+					1, rowsAfterExec[7][8].getTileValue());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
