@@ -18,11 +18,11 @@ public class Board {
 	 * 
 	 * @uml.property name="rows" multiplicity="(0 -1)" dimension="2"
 	 */
-	private int[][] rows;
+	private Cell[][] rows;
 
 	/** 
 	 * Stores the list of tiles that the user has marked. Marking means that the
-	 * user believes that the tiles hide mines. Each entry in the list is of the
+	 * user believes that the tiles hide mines. Each key of the Map is of the
 	 * form, "<code>row</code>,<code>column</code>".
 	 * @uml.property name="markedTiles"
 	 */
@@ -44,7 +44,7 @@ public class Board {
 				"Mode passed in as parameter cannot be null!!");
 		}
 		this.mode = mode;
-		this.rows = new int[mode.getRows()][mode.getColumns()];
+		this.rows = new Cell[mode.getRows()][mode.getColumns()];
 		markedTiles = new HashMap<String, Integer>();
 		fillRequiredCellsWithMines(mode);
 		fillNonMineCellsWithNumbers(mode);
@@ -67,7 +67,7 @@ public class Board {
 			for (int i = 0; i < rowCount; i++) {
 				for (int j = 0; j < columnCount; j++) {
 					if (random.nextBoolean()) {
-						rows[i][j] = -1;
+						rows[i][j] = new Cell(-1, false); 
 						mineCounter++;
 						if (mineCounter == mode.getMineCount()) return;
 					}
@@ -92,7 +92,7 @@ public class Board {
 		int columnCount = mode.getColumns();
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				if (rows[i][j] != -1) {
+				if (null == rows[i][j] || rows[i][j].getTileValue() != -1) {
 					rows[i][j]
 					    = howManyMinesSurroundThisCell(i, j);
 				}
@@ -111,32 +111,38 @@ public class Board {
 	 * @param currentColumn the column in which the cell resides
 	 * @return the count of mines.
 	 */
-	private int howManyMinesSurroundThisCell(int currentRow,
+	private Cell howManyMinesSurroundThisCell(int currentRow,
 			int currentColumn) {
 		assert currentRow > -1 : "Row is negative in howManyMinesSurroundThisCell";
 		assert currentColumn > -1 : "Column is negative in howManyMinesSurroundThisCell";
 		int sumOfBombs = 0;
 		int rowIndex = mode.getRows() - 1;
 		int columnIndex = mode.getColumns() - 1;
+		Cell cell = null;
 		//Do cells on either side of the current cell have bombs?
 		if (currentColumn > 0) {
-			sumOfBombs += rows[currentRow][currentColumn - 1] == -1? 1 : 0;
+			cell = rows[currentRow][currentColumn - 1];
+			sumOfBombs += (cell != null && cell.getTileValue() == -1? 1 : 0);
 		}
 		if (currentColumn < columnIndex) {
-			sumOfBombs += rows[currentRow][currentColumn + 1] == -1? 1 : 0;
+			cell = rows[currentRow][currentColumn + 1];
+			sumOfBombs += (cell != null && cell.getTileValue() == -1? 1 : 0);
 		}
 		
 		//Do cells to the upper left, upper right and directly above our cell
 		//have bombs?
 		if (currentRow > 0) {
 			if (currentColumn > 0) {
+				cell = rows[currentRow - 1][currentColumn - 1];
 				sumOfBombs +=
-					rows[currentRow - 1][currentColumn - 1] == -1? 1 : 0;
+					(cell != null && cell.getTileValue() == -1? 1 : 0);
 			}
-			sumOfBombs += rows[currentRow - 1][currentColumn] == -1? 1 : 0;
+			cell = rows[currentRow - 1][currentColumn];
+			sumOfBombs += cell != null && cell.getTileValue() == -1? 1 : 0;
 			if (currentColumn < columnIndex) {
+				cell = rows[currentRow - 1][currentColumn + 1];
 				sumOfBombs +=
-					rows[currentRow - 1][currentColumn + 1] == -1? 1 : 0;
+					(cell != null && cell.getTileValue() == -1? 1 : 0);
 			}
 		}
 		
@@ -144,16 +150,18 @@ public class Board {
 		//have bombs?
 		if (currentRow < rowIndex) {
 			if (currentColumn > 0) {
-				sumOfBombs +=
-					rows[currentRow + 1][currentColumn - 1] == -1? 1 : 0;
+				cell = rows[currentRow + 1][currentColumn - 1];
+				sumOfBombs += (cell != null && cell.getTileValue() == -1? 1 : 0);
 			}
-			sumOfBombs += rows[currentRow + 1][currentColumn] == -1? 1 : 0;
+			cell = rows[currentRow + 1][currentColumn];
+			sumOfBombs += cell != null && cell.getTileValue() == -1? 1 : 0;
 			if (currentColumn < columnIndex) {
+				cell = rows[currentRow + 1][currentColumn + 1];
 				sumOfBombs +=
-					rows[currentRow + 1][currentColumn + 1] == -1 ? 1 : 0;
+					(cell != null && cell.getTileValue() == -1 ? 1 : 0);
 			}
 		}
-		return sumOfBombs;
+		return new Cell(sumOfBombs, false);
 	}
 
 	/**
@@ -172,7 +180,7 @@ public class Board {
 		if (column > -1) {
 			throw new IllegalArgumentException("Column cannot be negative!!");
 		}
-		return rows[row][column];
+		return rows[row][column].getTileValue();
 	}
 
 	/**
@@ -222,7 +230,7 @@ public class Board {
 	 * 
 	 * @return the rows array
 	 */
-	public int[][] getRows() {
+	public Cell[][] getRows() {
 		return rows;
 	}
 	
