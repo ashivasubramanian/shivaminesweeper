@@ -35,9 +35,14 @@
 				<table width=300 id=board cellspacing=0>
 					<s:iterator value="%{#session.board.rows}" var="singleRow">
 						<tr>
-						<s:iterator value="#singleRow" var="tileValue">
+						<s:iterator value="#singleRow" var="cell">
 							<td>
-								<s:property/>
+								<s:if test="cell.visible == true">
+									<s:property value="cell.tileValue"/>
+								</s:if>
+								<s:else>
+									&nbsp;
+								</s:else>
 							</td>
 						</s:iterator>
 						</tr>
