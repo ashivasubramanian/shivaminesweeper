@@ -12,11 +12,12 @@ function doEventBinding() {
 }
 
 function reveal() {
-	revealCell(this);
-}
+	$.getJSON("http://localhost:8080/mine/getMineCount", {"row":row, "column":column}, revealCell);
+}	
 
 function highlight() {
 	mouseOverControl = this;
+	findRowAndColumnValues();
 	highlightCell(this);
 }
 
@@ -24,8 +25,9 @@ function unhighlight() {
 	unhighlightCell(this);
 }
 
-function revealCell(control) {
-	$(control).css("background-color", "white");
+function revealCell(data) {
+	$(mouseOverControl).css("background-color", "white");
+	$(mouseOverControl).text(data);
 }
 
 function highlightCell(control) {
@@ -39,21 +41,9 @@ function unhighlightCell(control) {
 }
 
 function determineAction(event) {
-	if (mouseOverControl != undefined) {
-		for (i = 0; i < document.getElementById("board").rows.length; i++) {
-			var single_row = document.getElementById("board").rows[i];
-			for (j = 0 ; j < single_row.cells.length; j++) {
-				var single_cell = single_row.cells[j];
-				if (single_cell == mouseOverControl) {
-					row = i;
-					column = j;
-					break;
-				}
-			}
-		}
-	}
+	findRowAndColumnValues();
 	if (event.keyCode == 32) { //space
-		revealCell(document.getElementById("board").rows[row].cells[column]);
+		reveal();
 	} else if (event.keyCode == 37) { //Left arrow
 		unhighlightCell(document.getElementById("board").rows[row].cells[column]);
 		column--;
@@ -74,7 +64,21 @@ function determineAction(event) {
 	mouseOverControl = document.getElementById("board").rows[row].cells[column];
 }
 
-
+function findRowAndColumnValues() {
+	if (mouseOverControl != undefined) {
+		for (i = 0; i < document.getElementById("board").rows.length; i++) {
+			var single_row = document.getElementById("board").rows[i];
+			for (j = 0 ; j < single_row.cells.length; j++) {
+				var single_cell = single_row.cells[j];
+				if (single_cell == mouseOverControl) {
+					row = i;
+					column = j;
+					break;
+				}
+			}
+		}
+	}
+}
 function changeMode() {
 	document.forms[0].action = "createBoard?mode=" + this.value;
 	document.forms[0].submit();
