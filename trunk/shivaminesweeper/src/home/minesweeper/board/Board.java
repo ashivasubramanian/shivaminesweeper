@@ -1,6 +1,7 @@
 package home.minesweeper.board;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +93,7 @@ public class Board {
 		int columnCount = mode.getColumns();
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				if (null == rows[i][j] || rows[i][j].getTileValue() != -1) {
+				if (null == rows[i][j] || rows[i][j].getMineCount() != -1) {
 					rows[i][j]
 					    = howManyMinesSurroundThisCell(i, j);
 				}
@@ -122,11 +123,11 @@ public class Board {
 		//Do cells on either side of the current cell have bombs?
 		if (currentColumn > 0) {
 			cell = rows[currentRow][currentColumn - 1];
-			sumOfBombs += (cell != null && cell.getTileValue() == -1? 1 : 0);
+			sumOfBombs += (cell != null && cell.getMineCount() == -1? 1 : 0);
 		}
 		if (currentColumn < columnIndex) {
 			cell = rows[currentRow][currentColumn + 1];
-			sumOfBombs += (cell != null && cell.getTileValue() == -1? 1 : 0);
+			sumOfBombs += (cell != null && cell.getMineCount() == -1? 1 : 0);
 		}
 		
 		//Do cells to the upper left, upper right and directly above our cell
@@ -135,14 +136,14 @@ public class Board {
 			if (currentColumn > 0) {
 				cell = rows[currentRow - 1][currentColumn - 1];
 				sumOfBombs +=
-					(cell != null && cell.getTileValue() == -1? 1 : 0);
+					(cell != null && cell.getMineCount() == -1? 1 : 0);
 			}
 			cell = rows[currentRow - 1][currentColumn];
-			sumOfBombs += cell != null && cell.getTileValue() == -1? 1 : 0;
+			sumOfBombs += cell != null && cell.getMineCount() == -1? 1 : 0;
 			if (currentColumn < columnIndex) {
 				cell = rows[currentRow - 1][currentColumn + 1];
 				sumOfBombs +=
-					(cell != null && cell.getTileValue() == -1? 1 : 0);
+					(cell != null && cell.getMineCount() == -1? 1 : 0);
 			}
 		}
 		
@@ -151,14 +152,14 @@ public class Board {
 		if (currentRow < rowIndex) {
 			if (currentColumn > 0) {
 				cell = rows[currentRow + 1][currentColumn - 1];
-				sumOfBombs += (cell != null && cell.getTileValue() == -1? 1 : 0);
+				sumOfBombs += (cell != null && cell.getMineCount() == -1? 1 : 0);
 			}
 			cell = rows[currentRow + 1][currentColumn];
-			sumOfBombs += cell != null && cell.getTileValue() == -1? 1 : 0;
+			sumOfBombs += cell != null && cell.getMineCount() == -1? 1 : 0;
 			if (currentColumn < columnIndex) {
 				cell = rows[currentRow + 1][currentColumn + 1];
 				sumOfBombs +=
-					(cell != null && cell.getTileValue() == -1 ? 1 : 0);
+					(cell != null && cell.getMineCount() == -1 ? 1 : 0);
 			}
 		}
 		return new Cell(sumOfBombs, false);
@@ -180,7 +181,7 @@ public class Board {
 		if (column > -1) {
 			throw new IllegalArgumentException("Column cannot be negative!!");
 		}
-		return rows[row][column].getTileValue();
+		return rows[row][column].getMineCount();
 	}
 
 	/**

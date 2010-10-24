@@ -20,7 +20,7 @@ public class BoardTest {
 		Cell rows[][] = board.getRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows[i].length; j++) {
-				if (rows[i][j].getTileValue() == -1) mineCount++;
+				if (rows[i][j].getMineCount() == -1) mineCount++;
 			}
 		}
 		assertEquals("Mine count is not 10", 10, mineCount);
@@ -36,7 +36,7 @@ public class BoardTest {
 		Cell rows[][] = board.getRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows[i].length; j++) {
-				if (rows[i][j].getTileValue() == -1) mineCount++;
+				if (rows[i][j].getMineCount() == -1) mineCount++;
 			}
 		}
 		assertEquals("Mine count is not 40", 40, mineCount);
@@ -52,7 +52,7 @@ public class BoardTest {
 		Cell rows[][] = board.getRows();
 		for (int i = 0; i < rows.length; i++) {
 			for (int j = 0; j < rows[i].length; j++) {
-				if (rows[i][j].getTileValue() == -1) mineCount++;
+				if (rows[i][j].getMineCount() == -1) mineCount++;
 			}
 		}
 		assertEquals("Mine count is not 99", 99, mineCount);
@@ -98,13 +98,13 @@ public class BoardTest {
 			
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for tile above",
-					1, rowsAfterExec[1][4].getTileValue());
+					1, rowsAfterExec[1][4].getMineCount());
 			assertEquals("tile calculation error for left tile",
-					1, rowsAfterExec[2][3].getTileValue());
+					1, rowsAfterExec[2][3].getMineCount());
 			assertEquals("tile calculation error for right tile",
-					1, rowsAfterExec[2][5].getTileValue());
+					1, rowsAfterExec[2][5].getMineCount());
 			assertEquals("tile calculation error for tile below",
-					1, rowsAfterExec[3][4].getTileValue());
+					1, rowsAfterExec[3][4].getMineCount());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -165,11 +165,11 @@ public class BoardTest {
 			
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for right tile",
-					1, rowsAfterExec[0][1].getTileValue());
+					1, rowsAfterExec[0][1].getMineCount());
 			assertEquals("Mine calculation error for tile below",
-					1, rowsAfterExec[1][0].getTileValue());
+					1, rowsAfterExec[1][0].getMineCount());
 			assertEquals("Mine calculation error for below right tile",
-					1, rowsAfterExec[1][1].getTileValue());
+					1, rowsAfterExec[1][1].getMineCount());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -226,11 +226,11 @@ public class BoardTest {
 			
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for left tile",
-					1, rowsAfterExec[0][7].getTileValue());
+					1, rowsAfterExec[0][7].getMineCount());
 			assertEquals("Mine calculation error for tile below",
-					1, rowsAfterExec[1][8].getTileValue());
+					1, rowsAfterExec[1][8].getMineCount());
 			assertEquals("Mine calculation error for below left tile",
-					1, rowsAfterExec[1][7].getTileValue());
+					1, rowsAfterExec[1][7].getMineCount());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -288,11 +288,11 @@ public class BoardTest {
 			
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for left tile",
-					1, rowsAfterExec[7][0].getTileValue());
+					1, rowsAfterExec[7][0].getMineCount());
 			assertEquals("Mine calculation error for tile below",
-					1, rowsAfterExec[7][1].getTileValue());
+					1, rowsAfterExec[7][1].getMineCount());
 			assertEquals("Mine calculation error for below left tile",
-					1, rowsAfterExec[8][1].getTileValue());
+					1, rowsAfterExec[8][1].getMineCount());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
@@ -349,11 +349,11 @@ public class BoardTest {
 			
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for top left tile",
-					1, rowsAfterExec[7][7].getTileValue());
+					1, rowsAfterExec[7][7].getMineCount());
 			assertEquals("Mine calculation error for left tile",
-					1, rowsAfterExec[8][7].getTileValue());
+					1, rowsAfterExec[8][7].getMineCount());
 			assertEquals("Mine calculation error for top tile",
-					1, rowsAfterExec[7][8].getTileValue());
+					1, rowsAfterExec[7][8].getMineCount());
 		} catch (SecurityException se) {
 			se.printStackTrace();
 		} catch (NoSuchFieldException nsfe) {
