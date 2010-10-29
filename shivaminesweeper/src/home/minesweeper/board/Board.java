@@ -49,6 +49,7 @@ public class Board {
 		markedTiles = new HashMap<String, Integer>();
 		fillRequiredCellsWithMines(mode);
 		fillNonMineCellsWithNumbers(mode);
+		showBoard();
 	}
 
 	/**
@@ -252,5 +253,15 @@ public class Board {
 	 */
 	public BoardModes getMode() {
 		return mode;
+	}
+	
+	public void showBoard() {
+		for (int i = 0; i < mode.getRows(); i++) {
+			for (int j = 0; j < mode.getColumns(); j++) {
+				Cell cell = rows[i][j];
+				System.out.print(cell.getMineCount() + " ");
+			}
+			System.out.println();
+		}
 	}
 }
