@@ -40,11 +40,16 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 		int row = Integer.parseInt(request.getParameter("row"));
 		int column = Integer.parseInt(request.getParameter("column"));
 		Cell cell = board.getRows()[row][column];
-		Integer mineCount = new Integer(cell.getMineCount());
+		String mineCount;
+		if (cell.getMineCount() == 0) {
+			mineCount = "{\"mineCount\" : \"\"}";
+		} else {
+			mineCount = "{\"mineCount\" : \"" + cell.getMineCount() + "\"}";
+		}
 		System.out.println("row : " + row + " col: " + column + " mine count : " + mineCount);
 		response.setHeader("pragma", "no-cache");
 		response.setDateHeader("expires", 0);
-		inputStream = new StringBufferInputStream(mineCount.toString());
+		inputStream = new StringBufferInputStream(mineCount);
 		return SUCCESS;
 	}
 
