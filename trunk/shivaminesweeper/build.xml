@@ -30,6 +30,7 @@
 				<fileset dir="WEB-INF\lib">
 					<include name="*.jar"/>
 				</fileset>
+				<fileset dir="${tomcat.dir}\lib" includes="servlet-api.jar"/>
 			<path path="minetest.jar"/>
 			</classpath>
 			<formatter type="plain" usefile="false"/>
