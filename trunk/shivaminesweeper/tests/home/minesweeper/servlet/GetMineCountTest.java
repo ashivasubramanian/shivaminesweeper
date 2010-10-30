@@ -27,7 +27,7 @@ public class GetMineCountTest {
 			Cell rows[][] = {
 					{new Cell(4, false), new Cell(0, false), new Cell(0, false), new Cell(5, false), new Cell(0, false),
 						new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
-					{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
+					{new Cell(1, false), new Cell(2, false), new Cell(0, false), new Cell(0, false), new Cell(0, false),
 						new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
 					{new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(-1, false),
 						new Cell(0, false), new Cell(0, false), new Cell(0, false), new Cell(0, false)},
@@ -71,10 +71,10 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("column")).thenReturn("0");
 		servlet.execute();
 		try {
-			byte mineCountAsByte[] = new byte[19];
+			byte mineCountAsByte[] = new byte[37];
 			servlet.getInputStream().read(mineCountAsByte);
 			String mineCount = new String(mineCountAsByte);
-			Assert.assertEquals("Mine count is not 4", "{\"mineCount\" : \"4\"}", mineCount);
+			Assert.assertEquals("Mine count is not 4", "{\"mineCount\" : \"4\", \"colour\" : \"red\"}", mineCount);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -83,10 +83,10 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("column")).thenReturn("8");
 		servlet.execute();
 		try {
-			byte mineCountAsByte[] = new byte[19];
+			byte mineCountAsByte[] = new byte[40];
 			servlet.getInputStream().read(mineCountAsByte);
 			String mineCount = new String(mineCountAsByte);
-			Assert.assertEquals("Mine count is not 3", "{\"mineCount\" : \"3\"}", mineCount);
+			Assert.assertEquals("Mine count is not 3", "{\"mineCount\" : \"3\", \"colour\" : \"orange\"}", mineCount);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -95,10 +95,10 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("column")).thenReturn("4");
 		servlet.execute();
 		try {
-			byte mineCountAsByte[] = new byte[20];
+			byte mineCountAsByte[] = new byte[35];
 			servlet.getInputStream().read(mineCountAsByte);
 			String mineCount = new String(mineCountAsByte);
-			Assert.assertEquals("Mine count is not -1", "{\"mineCount\" : \"-1\"}", mineCount);
+			Assert.assertEquals("Mine count is not -1", "{\"mineCount\" : \"-1\", \"colour\" : \"\"}", mineCount);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -144,5 +144,28 @@ public class GetMineCountTest {
 			ioe.printStackTrace();
 		}
 		Assert.assertEquals("Value is not empty.", "{\"mineCount\" : \"\"}", new String(mineCount));
+	}
+	
+	@Test
+	public void colourShouldBeGreenIfMineCountIs1Or2() {
+		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+		HttpSession session = Mockito.mock(HttpSession.class);
+		Mockito.when(request.getSession()).thenReturn(session);
+		Mockito.when(session.getAttribute("board")).thenReturn(board);
+		
+		GetMineCount servlet = new GetMineCount();
+		servlet.setServletRequest(request);
+		servlet.setServletResponse(response);
+		Mockito.when(request.getParameter("row")).thenReturn("1");
+		Mockito.when(request.getParameter("column")).thenReturn("0");
+		servlet.execute();
+		byte mineCount[] = new byte[39];
+		try {
+			servlet.getInputStream().read(mineCount);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		Assert.assertEquals("Colour is not green.", "{\"mineCount\" : \"1\", \"colour\" : \"green\"}", new String(mineCount));
 	}
 }

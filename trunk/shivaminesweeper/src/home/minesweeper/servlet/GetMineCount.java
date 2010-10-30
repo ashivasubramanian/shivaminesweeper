@@ -40,17 +40,29 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 		int row = Integer.parseInt(request.getParameter("row"));
 		int column = Integer.parseInt(request.getParameter("column"));
 		Cell cell = board.getRows()[row][column];
-		String mineCount;
+		String mineCountJSON;
 		if (cell.getMineCount() == 0) {
-			mineCount = "{\"mineCount\" : \"\"}";
+			mineCountJSON = "{\"mineCount\" : \"\"}";
 		} else {
-			mineCount = "{\"mineCount\" : \"" + cell.getMineCount() + "\"}";
+			mineCountJSON = "{\"mineCount\" : \"" + cell.getMineCount() + "\", \"colour\" : \"" + getColour(cell.getMineCount()) + "\"}";
 		}
-		System.out.println("row : " + row + " col: " + column + " mine count : " + mineCount);
+		System.out.println("row : " + row + " col: " + column + " mine count : " + mineCountJSON);
 		response.setHeader("pragma", "no-cache");
 		response.setDateHeader("expires", 0);
-		inputStream = new StringBufferInputStream(mineCount);
+		inputStream = new StringBufferInputStream(mineCountJSON);
 		return SUCCESS;
+	}
+	
+	private String getColour(int mineCount) {
+		String colour = "";
+		if (mineCount == 1 || mineCount == 2) {
+			colour = "green";
+		} else if (mineCount == 3) {
+			colour = "orange";
+		} else if (mineCount >= 4) {
+			colour = "red";
+		}
+		return colour;
 	}
 
 }

@@ -28,6 +28,7 @@ function unhighlight() {
 function revealCell(data) {
 	$(mouseOverControl).css("background-color", "white");
 	$(mouseOverControl).text(data.mineCount);
+	$(mouseOverControl).css("color", data.colour);
 }
 
 function highlightCell(control) {
