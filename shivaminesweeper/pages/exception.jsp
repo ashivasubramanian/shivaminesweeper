@@ -1,4 +1,8 @@
-<%@ page isErrorPage="true" %>
+<%@ page isErrorPage="true" import="java.util.logging.Logger,java.util.logging.Level"%>
+<%
+	Logger logger = Logger.getLogger("exception.jsp");
+	logger.log(Level.SEVERE, "Exception thrown!!", exception);
+%>
 <html>
 	<head>
 		<title> An exception has occurred...</title>

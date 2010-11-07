@@ -5,6 +5,8 @@ import home.minesweeper.board.BoardModes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +30,11 @@ public class CreateBoard implements ServletRequestAware {
 	HttpServletRequest request;
 	
 	/**
+	 * An instance of <code>Logger</code> to log messages.
+	 */
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
+	
+	/**
 	 * The <code>execute()</code> method of Struts 2. Determines the mode of
 	 * the board requested and renders that board.
 	 * 
@@ -35,6 +42,7 @@ public class CreateBoard implements ServletRequestAware {
 	 */
 	public String execute() {
 		
+		logger.entering(this.getClass().getName(), "execute");
 		String mode = request.getParameter("mode").toUpperCase();
 		String result = "success";
 		BoardModes boardMode = null;
@@ -51,9 +59,11 @@ public class CreateBoard implements ServletRequestAware {
 		modes.add(BoardModes.INTERMEDIATE.toString());
 		modes.add(BoardModes.ADVANCED.toString());
 		request.setAttribute("modes", modes);
-
+		
 		Board board = new Board(boardMode);
 		request.getSession().setAttribute("board", board);
+		logger.log(Level.INFO, board.printBoard());
+		logger.exiting(this.getClass().getName(), "execute");
 		return result;
 	}
 	
@@ -65,4 +75,5 @@ public class CreateBoard implements ServletRequestAware {
 	public void setServletRequest(HttpServletRequest req) {
 		request = req;
 	}
+
 }

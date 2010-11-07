@@ -5,6 +5,8 @@ import home.minesweeper.board.Cell;
 
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,8 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 	private HttpServletResponse response;
 	
 	private InputStream inputStream;
+	
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
@@ -35,7 +39,7 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 	}
 
 	public String execute() {
-		System.out.println("in execute method...");
+		logger.entering(this.getClass().getName(), "execute");
 		Board board = (Board) request.getSession().getAttribute("board");
 		int row = Integer.parseInt(request.getParameter("row"));
 		int column = Integer.parseInt(request.getParameter("column"));
@@ -46,10 +50,11 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 		} else {
 			mineCountJSON = "{\"mineCount\" : \"" + cell.getMineCount() + "\", \"colour\" : \"" + getColour(cell.getMineCount()) + "\"}";
 		}
-		System.out.println("row : " + row + " col: " + column + " mine count : " + mineCountJSON);
+		logger.log(Level.INFO, "row : " + row + " col: " + column + " mine count : " + mineCountJSON);
 		response.setHeader("pragma", "no-cache");
 		response.setDateHeader("expires", 0);
 		inputStream = new StringBufferInputStream(mineCountJSON);
+		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
 	

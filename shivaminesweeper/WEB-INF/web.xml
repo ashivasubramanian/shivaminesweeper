@@ -7,6 +7,10 @@
 		<error-code>404</error-code>
 		<location>/pages/error.jsp</location>
 	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/pages/exception.jsp</location>
+	</error-page>
 	<filter>
 		<filter-name>action</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>

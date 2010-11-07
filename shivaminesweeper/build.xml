@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="shivaminesweeper" default="deploy">
-	<property name="tomcat.dir" value="e:\apache-tomcat-6.0.18"/>
+	<property name="tomcat.dir" value="E:\apache-tomcat-6.0.18"/>
 	
 	<target name="clean" description="Deletes all files (if any) that were previously created by this build.xml and generates them by running the tasks again.">
 		<delete dir="WEB-INF\classes"/>
@@ -20,6 +20,7 @@
 			</classpath>
 		</javac>
 		<copy file="src\struts.xml" todir="WEB-INF\classes"/>
+		<copy file="src\logging.properties" todir="WEB-INF\classes"/>
 	</target>
 	<target name="unit_test" depends="compile" description="Runs all unit tests.">
 		<jar destfile="minetest.jar">
@@ -44,9 +45,8 @@
 	<target name="build" description="Builds the WAR file necessary to deploy to the server." depends="unit_test">
 		<delete file="mine.war"/>
 		<war destfile="mine.war" webxml="WEB-INF\web.xml" manifest="META-INF\MANIFEST.MF">
-			<webinf dir="WEB-INF" includes="struts.xml"/>
 			<lib dir="WEB-INF\lib" includes="*.*"/>
-			<classes dir="WEB-INF\classes" includes="**\*.class,struts.xml" excludes="**\*Test*"/>
+			<classes dir="WEB-INF\classes" includes="**\*.class,struts.xml,logging.properties" excludes="**\*Test*"/>
 			<zipfileset dir="pages" prefix="pages"/>
 			<zipfileset dir="css" prefix="css"/>
 			<zipfileset dir="js" prefix="js"/>
