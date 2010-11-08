@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.interceptor.ServletRequestAware;
 
@@ -61,7 +62,9 @@ public class CreateBoard implements ServletRequestAware {
 		request.setAttribute("modes", modes);
 		
 		Board board = new Board(boardMode);
-		request.getSession().setAttribute("board", board);
+		HttpSession session = request.getSession();
+		session.setAttribute(session.getId(), board);
+		request.setAttribute("sessionId", session.getId());
 		logger.log(Level.INFO, board.printBoard());
 		logger.exiting(this.getClass().getName(), "execute");
 		return result;

@@ -61,7 +61,8 @@ public class GetMineCountTest {
 		HttpSession session = Mockito.mock(HttpSession.class);
 		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(session.getAttribute("board")).thenReturn(board);
+		Mockito.when(request.getRequestedSessionId()).thenReturn("");
+		Mockito.when(session.getAttribute("")).thenReturn(board);
 		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
@@ -110,7 +111,8 @@ public class GetMineCountTest {
 		HttpSession session = Mockito.mock(HttpSession.class);
 		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(session.getAttribute("board")).thenReturn(board);
+		Mockito.when(request.getRequestedSessionId()).thenReturn("");
+		Mockito.when(session.getAttribute("")).thenReturn(board);
 		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
@@ -129,7 +131,8 @@ public class GetMineCountTest {
 		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		HttpSession session = Mockito.mock(HttpSession.class);
 		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(session.getAttribute("board")).thenReturn(board);
+		Mockito.when(request.getRequestedSessionId()).thenReturn("");
+		Mockito.when(session.getAttribute("")).thenReturn(board);
 		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
@@ -152,7 +155,8 @@ public class GetMineCountTest {
 		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		HttpSession session = Mockito.mock(HttpSession.class);
 		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(session.getAttribute("board")).thenReturn(board);
+		Mockito.when(request.getRequestedSessionId()).thenReturn("");
+		Mockito.when(session.getAttribute("")).thenReturn(board);
 		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
