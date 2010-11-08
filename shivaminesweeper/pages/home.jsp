@@ -32,8 +32,9 @@
 			
 			<!-- game board -->
 			<center>
+				<s:hidden id="sessionId" value="%{#request['sessionId']}"/>
 				<table width=300 id=board cellspacing=0>
-					<s:iterator value="%{#session.board.rows}" var="singleRow">
+					<s:iterator value="%{#session[#request['sessionId']].rows}" var="singleRow">
 						<tr>
 						<s:iterator value="#singleRow" var="cell">
 							<td>

@@ -40,7 +40,8 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 
 	public String execute() {
 		logger.entering(this.getClass().getName(), "execute");
-		Board board = (Board) request.getSession().getAttribute("board");
+		logger.log(Level.INFO, "session id : " + request.getRequestedSessionId());
+		Board board = (Board) request.getSession().getAttribute(request.getRequestedSessionId());
 		int row = Integer.parseInt(request.getParameter("row"));
 		int column = Integer.parseInt(request.getParameter("column"));
 		Cell cell = board.getRows()[row][column];
