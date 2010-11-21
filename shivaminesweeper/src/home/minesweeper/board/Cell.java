@@ -20,6 +20,12 @@ public class Cell {
 	 */
 	private boolean visible;
 	
+	private String colour;
+	
+	private int x;
+	
+	private int y;
+	
 	/**
 	 * Initializes the cell with the mine count and display values. Note that <code>visible</code> determines whether
 	 * the mine count is to be shown or not. This is usually set to <code>false</code> on page load, and set to
@@ -28,9 +34,12 @@ public class Cell {
 	 * @param mineCount the mine count.
 	 * @param visible whether the mine count is to be shown on the page or not.
 	 */
-	public Cell(int mineCount, boolean visible) {
+	public Cell(int mineCount, boolean visible, int x, int y) {
 		this.mineCount = mineCount;
 		this.visible = visible;
+		colour = getColour(mineCount);
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -55,5 +64,57 @@ public class Cell {
 	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	
+	private String getColour(int mineCount) {
+		String colour = "";
+		if (mineCount == 1 || mineCount == 2) {
+			colour = "green";
+		} else if (mineCount == 3) {
+			colour = "orange";
+		} else if (mineCount >= 4) {
+			colour = "red";
+		}
+		return colour;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public String toJSON() {
+		String mineCountJSON;
+		mineCountJSON = "{\"mineCount\" : \"" + mineCount + "\", \"colour\" : \"" + colour + "\", \"x\" : \"" + x + "\", \"y\" : \"" + y + "\"}";
+		return mineCountJSON;
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == null) {
+			return false;
+		}
+		if (!(object instanceof Cell)) {
+			throw new IllegalArgumentException("Can compare only instances of home.minesweeper.board.Cell!!");
+		}
+		Cell cell = (Cell) object;
+		if (cell.getMineCount() == mineCount && cell.getX() == x && cell.getY() == y) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return x + y + mineCount;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + x + "," + y + ") => " + mineCount;
 	}
 }

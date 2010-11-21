@@ -5,6 +5,7 @@ import home.minesweeper.board.Cell;
 
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,30 +46,28 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 		int row = Integer.parseInt(request.getParameter("row"));
 		int column = Integer.parseInt(request.getParameter("column"));
 		Cell cell = board.getRows()[row][column];
-		String mineCountJSON;
-		if (cell.getMineCount() == 0) {
-			mineCountJSON = "{\"mineCount\" : \"\"}";
+		String json;
+		if (cell.getMineCount() != 0) {
+			 json = cell.toJSON();
 		} else {
-			mineCountJSON = "{\"mineCount\" : \"" + cell.getMineCount() + "\", \"colour\" : \"" + getColour(cell.getMineCount()) + "\"}";
+			json = constructContiguousCellsJSON(board.determineContiguousEmptyCells(row, column));
 		}
-		logger.log(Level.INFO, "row : " + row + " col: " + column + " mine count : " + mineCountJSON);
+		logger.log(Level.INFO, "row : " + row + " col: " + column + " mine count : " + json);
 		response.setHeader("pragma", "no-cache");
 		response.setDateHeader("expires", 0);
-		inputStream = new StringBufferInputStream(mineCountJSON);
+		inputStream = new StringBufferInputStream(json);
 		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
 	
-	private String getColour(int mineCount) {
-		String colour = "";
-		if (mineCount == 1 || mineCount == 2) {
-			colour = "green";
-		} else if (mineCount == 3) {
-			colour = "orange";
-		} else if (mineCount >= 4) {
-			colour = "red";
+	private String constructContiguousCellsJSON(Set<Cell> contiguousCells) {
+		String json = "";
+		json = "{\"contiguous\": [";
+		for (Cell individualCell : contiguousCells) {
+			json += individualCell.toJSON() + ",";
 		}
-		return colour;
+		json = json.substring(0, json.length() - 1);
+		json += "]}";
+		return json;
 	}
-
 }

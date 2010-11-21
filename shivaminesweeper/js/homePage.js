@@ -28,9 +28,16 @@ function unhighlight() {
 }
 
 function revealCell(data) {
-	$(mouseOverControl).css("background-color", "white");
-	$(mouseOverControl).text(data.mineCount);
-	$(mouseOverControl).css("color", data.colour);
+	if (!data.contiguous) {
+		$(mouseOverControl).css("background-color", "white");
+		$(mouseOverControl).text(data.mineCount);
+		$(mouseOverControl).css("color", data.colour);
+	} else if (data.contiguous) {
+		for (i = 0; i < data.contiguous.length; i++) {
+			var table = document.getElementById("board");
+			table.rows[data.contiguous[i].x].cells[data.contiguous[i].y].style.backgroundColor = "white";
+		}
+	}
 }
 
 function highlightCell(control) {
