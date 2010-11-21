@@ -65,7 +65,7 @@ public class CreateBoard implements ServletRequestAware {
 		HttpSession session = request.getSession();
 		session.setAttribute(session.getId(), board);
 		request.setAttribute("sessionId", session.getId());
-		logger.log(Level.INFO, board.printBoard());
+		logger.log(Level.INFO, board.toString());
 		logger.exiting(this.getClass().getName(), "execute");
 		return result;
 	}

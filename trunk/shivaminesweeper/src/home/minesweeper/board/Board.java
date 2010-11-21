@@ -1,9 +1,10 @@
 package home.minesweeper.board;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents the board that is currently being played by the user.
@@ -68,7 +69,7 @@ public class Board {
 			for (int i = 0; i < rowCount; i++) {
 				for (int j = 0; j < columnCount; j++) {
 					if (random.nextBoolean()) {
-						rows[i][j] = new Cell(-1, false); 
+						rows[i][j] = new Cell(-1, false, i, j); 
 						mineCounter++;
 						if (mineCounter == mode.getMineCount()) return;
 					}
@@ -162,7 +163,7 @@ public class Board {
 					(cell != null && cell.getMineCount() == -1 ? 1 : 0);
 			}
 		}
-		return new Cell(sumOfBombs, false);
+		return new Cell(sumOfBombs, false, currentRow, currentColumn);
 	}
 
 	/**
@@ -185,22 +186,134 @@ public class Board {
 	}
 
 	/**
-	 * Determines if the user correctly marked the bombs. If yes, the method
+	 * Determines if the user correctly marked the mines. If yes, the method
 	 * returns <code>true</code> and the game ends, otherwise returns
 	 * <code>false</code>.
 	 */
 	public boolean validateCurrentBoardState() {
 		return false;
 	}
-
+	
 	/**
 	 * If <code>revealCell()</code> returns 0, then that cell may have
 	 * contiguous empty cells. This method determines those cells and returns an
 	 * array of integers that represent each empty cell.
 	 */
-	public int[][] determineContiguousEmptyCells(int currentRow,
-			int currentColumn) {
-		return null;
+	public Set<Cell> determineContiguousEmptyCells(int currentRow, int currentColumn) {
+		System.out.println(this);
+		Cell cell = (Cell) rows[currentRow][currentColumn];
+		Set<Cell> cells = new LinkedHashSet<Cell>();
+		cells.add(cell);
+		Set<Cell> contiguousCells = determineContiguousEmptyCells(cells, cells);
+		System.out.println("contiguousCells: " + contiguousCells);
+		return contiguousCells;
+	}
+
+	private Set<Cell> determineContiguousEmptyCells(Set<Cell> cellsWithValueZeroFromPreviousIteration, Set<Cell> allCellsWithValueZero) {
+		for (Cell individualCell : cellsWithValueZeroFromPreviousIteration) {
+			Set<Cell> set = new LinkedHashSet<Cell>();
+			int rowIndex = mode.getRows() - 1;
+			int columnIndex = mode.getColumns() - 1;
+			int currentRow = getLocationOfCell(individualCell)[0];
+			int currentColumn = getLocationOfCell(individualCell)[1];
+			System.out.println("about to process " + cellsWithValueZeroFromPreviousIteration);
+			System.out.println("processing " + currentRow + " " + currentColumn);
+			boolean addedCell = false;
+			//Do cells on either side of the current cell have bombs?
+			if (currentColumn > 0) {
+				Cell left = (Cell) rows[currentRow][currentColumn - 1];
+				System.out.println("left (" + currentRow + "," + (currentColumn - 1)
+						+ ") => " + left.getMineCount());
+				if (left.getMineCount() == 0 && !allCellsWithValueZero.contains(left)) {
+						set.add(left);
+						allCellsWithValueZero.add(left);
+						addedCell = true;
+				}
+			}
+			if (currentColumn < columnIndex) {
+				Cell right = (Cell) rows[currentRow][currentColumn + 1];
+				System.out.println("right (" + currentRow + "," + (currentColumn + 1)
+						+ ") => " + right.getMineCount());
+				if (right.getMineCount() == 0 && !allCellsWithValueZero.contains(right)) {
+						set.add(right);
+						allCellsWithValueZero.add(right);
+						addedCell = true;
+				}
+			}
+			//Do cells to the upper left, upper right and directly above our cell
+			//have bombs?
+			if (currentRow > 0) {
+				if (currentColumn > 0) {
+					Cell topLeft = (Cell) rows[currentRow - 1][currentColumn - 1];
+					System.out.println("top left (" + (currentRow - 1) + ","
+							+ (currentColumn - 1) + ") => " + topLeft.getMineCount());
+					if (topLeft.getMineCount() == 0 && !allCellsWithValueZero.contains(topLeft)) {
+							set.add(topLeft);
+							allCellsWithValueZero.add(topLeft);
+							addedCell = true;
+					}
+				}
+				Cell top = (Cell) rows[currentRow - 1][currentColumn];
+				System.out.println("top (" + (currentRow - 1) + "," + currentColumn
+						+ ") => " + top.getMineCount());
+				if (top.getMineCount() == 0 && !allCellsWithValueZero.contains(top)) {
+						set.add(top);
+						allCellsWithValueZero.add(top);
+						addedCell = true;
+				}
+				if (currentColumn < columnIndex) {
+					Cell topRight = (Cell) rows[currentRow - 1][currentColumn + 1];
+					System.out.println("top right (" + (currentRow - 1) + ","
+									+ (currentColumn + 1) + ") => "
+									+ topRight.getMineCount());
+					if (topRight.getMineCount() == 0 && !allCellsWithValueZero.contains(topRight)) {
+							set.add(topRight);
+							allCellsWithValueZero.add(topRight);
+							addedCell = true;
+					}
+				}
+			}
+			//Do cells to the bottom left, bottom right and directly below our cell
+			//have bombs?
+			if (currentRow < rowIndex) {
+				if (currentColumn > 0) {
+					Cell bottomLeft = (Cell) rows[currentRow + 1][currentColumn - 1];
+					System.out.println("bottom left (" + (currentRow + 1) + ","
+							+ (currentColumn - 1) + ") => "
+							+ bottomLeft.getMineCount());
+					if (bottomLeft.getMineCount() == 0 && !allCellsWithValueZero.contains(bottomLeft)) {
+							set.add(bottomLeft);
+							allCellsWithValueZero.add(bottomLeft);
+							addedCell = true;
+					}
+				}
+				Cell bottom = (Cell) rows[currentRow + 1][currentColumn];
+				System.out.println("bottom (" + (currentRow + 1) + ","
+						+ currentColumn + ") => " + bottom.getMineCount());
+				if (bottom.getMineCount() == 0 && !allCellsWithValueZero.contains(bottom)) {
+						set.add(bottom);
+						allCellsWithValueZero.add(bottom);
+						addedCell = true;
+				}
+				if (currentColumn < columnIndex) {
+					Cell bottomRight = (Cell) rows[currentRow + 1][currentColumn + 1];
+					System.out.println("bottom right (" + (currentRow + 1) + ","
+							+ (currentColumn + 1) + ") => "
+							+ bottomRight.getMineCount());
+					if (bottomRight.getMineCount() == 0 && !allCellsWithValueZero.contains(bottomRight)) {
+							set.add(bottomRight);
+							allCellsWithValueZero.add(bottomRight);
+							addedCell = true;
+					}
+				}
+			}
+			System.out.println("next iter...");
+			if (addedCell) {
+				determineContiguousEmptyCells(set, allCellsWithValueZero);
+			}
+		}
+		System.out.println("done with set...");
+		return cellsWithValueZeroFromPreviousIteration;
 	}
 
 	/**
@@ -254,7 +367,7 @@ public class Board {
 		return mode;
 	}
 	
-	public String printBoard() {
+	public String toString() {
 		String board = "";
 		for (int i = 0; i < mode.getRows(); i++) {
 			for (int j = 0; j < mode.getColumns(); j++) {
@@ -264,5 +377,17 @@ public class Board {
 			board += "\n";
 		}
 		return board;
+	}
+	
+	private int[] getLocationOfCell(Cell cell) {
+		for (int i = 0; i < rows.length; i++) {
+			for (int j = 0; j < rows[i].length; j++) {
+				Cell individualCell = rows[i][j];
+				if (cell.equals(individualCell)) {
+					return new int[] {i,j};
+				}
+			}
+		}
+		return new int[2];
 	}
 }
