@@ -19,9 +19,13 @@ import org.mockito.Mockito;
 public class GetMineCountTest {
 	
 	Board board;
+	HttpServletRequest request;
+	HttpSession session;
+	HttpServletResponse response;
 	
 	@Before
 	public void setUp() {
+		//setup our data
 		try {
 			board = new Board(BoardModes.BEGINNER);
 			Cell rows[][] = {
@@ -53,17 +57,18 @@ public class GetMineCountTest {
 		} catch (IllegalAccessException iae) {
 			iae.printStackTrace();
 		}
+		
+		//setup some mock objects
+		request = Mockito.mock(HttpServletRequest.class);
+		session = Mockito.mock(HttpSession.class);
+		response = Mockito.mock(HttpServletResponse.class);
+		Mockito.when(request.getSession()).thenReturn(session);
+		Mockito.when(request.getRequestedSessionId()).thenReturn("");
+		Mockito.when(session.getAttribute("")).thenReturn(board);
 	}
 
 	@Test
 	public void mineCountReturnedShouldBeForThatSpecificRowAndColumn() {
-		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-		HttpSession session = Mockito.mock(HttpSession.class);
-		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(request.getRequestedSessionId()).thenReturn("");
-		Mockito.when(session.getAttribute("")).thenReturn(board);
-		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
 		servlet.setServletResponse(response);
@@ -107,13 +112,6 @@ public class GetMineCountTest {
 
 	@Test
 	public void cacheAttributesMustBeSetInTheResponse() {
-		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-		HttpSession session = Mockito.mock(HttpSession.class);
-		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(request.getRequestedSessionId()).thenReturn("");
-		Mockito.when(session.getAttribute("")).thenReturn(board);
-		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
 		servlet.setServletResponse(response);
@@ -127,13 +125,6 @@ public class GetMineCountTest {
 	
 	@Test
 	public void emptyStringMustBeReturnedForTilesWithZeroMineCount() {
-		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-		HttpSession session = Mockito.mock(HttpSession.class);
-		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(request.getRequestedSessionId()).thenReturn("");
-		Mockito.when(session.getAttribute("")).thenReturn(board);
-		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
 		servlet.setServletResponse(response);
@@ -151,12 +142,6 @@ public class GetMineCountTest {
 	
 	@Test
 	public void colourShouldBeGreenIfMineCountIs1Or2() {
-		HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-		HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-		HttpSession session = Mockito.mock(HttpSession.class);
-		Mockito.when(request.getSession()).thenReturn(session);
-		Mockito.when(request.getRequestedSessionId()).thenReturn("");
-		Mockito.when(session.getAttribute("")).thenReturn(board);
 		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);

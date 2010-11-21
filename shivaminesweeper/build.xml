@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="shivaminesweeper" default="deploy">
-	<property name="tomcat.dir" value="E:\apache-tomcat-6.0.18"/>
+	<property name="tomcat.dir" value="E:\Program Files\apache-tomcat-6.0.29"/>
 	
 	<target name="clean" description="Deletes all files (if any) that were previously created by this build.xml and generates them by running the tasks again.">
 		<delete dir="WEB-INF\classes"/>
@@ -50,6 +50,7 @@
 			<zipfileset dir="pages" prefix="pages"/>
 			<zipfileset dir="css" prefix="css"/>
 			<zipfileset dir="js" prefix="js"/>
+			<zipfileset dir="images" prefix="images"/>
 		</war>
 	</target>
 	<target name="deploy" description="Deploys the WAR file to the Tomcat server" depends="build">

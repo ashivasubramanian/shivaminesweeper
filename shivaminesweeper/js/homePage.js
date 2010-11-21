@@ -9,6 +9,8 @@ function doEventBinding() {
 	$("#board td").bind("mouseout", unhighlight);
 	$(document).bind("keydown", determineAction);
 	$("#selectMode").bind("change", changeMode); 
+	$(document).bind("contextmenu", function(event) { return false; });
+	$("#board td").bind("mouseup", markTile);
 }
 
 function reveal() {
@@ -44,6 +46,15 @@ function unhighlightCell(control) {
 function determineAction(event) {
 	findRowAndColumnValues();
 	if (event.keyCode == 32) { //space
+		if(event.shiftKey) {
+			var control = document.getElementById("board").rows[row].cells[column];
+			if (control.innerHTML.indexOf("<img") >= 0) {
+				$.get("http://localhost:8080/mine/unmarkTile", {"row":row, "column":column}, showAsUnmarkedTile);
+			} else {
+				$.get("http://localhost:8080/mine/markTile", {"row":row, "column":column}, showAsMarkedTile);
+			}
+			return;
+		}
 		reveal();
 	} else if (event.keyCode == 37) { //Left arrow
 		unhighlightCell(document.getElementById("board").rows[row].cells[column]);
@@ -83,4 +94,33 @@ function findRowAndColumnValues() {
 function changeMode() {
 	document.forms[0].action = "createBoard?mode=" + this.value;
 	document.forms[0].submit();
+}
+
+function markTile(event) {
+	if (event.button == 2) {
+			$.get("http://localhost:8080/mine/markTile", {"row":row, "column":column}, showAsMarkedTile);
+	}
+}
+
+function unmarkTile(event) {
+	if (event.button == 2) {
+		$.get("http://localhost:8080/mine/unmarkTile", {"row":row, "column":column}, showAsUnmarkedTile);
+	}
+}
+function showAsMarkedTile(data) {
+	$(mouseOverControl).html("<img src='http://localhost:8080/mine/images/flag.jpg'/>");
+	var currentFlaggedCount = parseInt($("#mineCount").text()); 
+	$("#mineCount").text(currentFlaggedCount - 1);
+	$(mouseOverControl).unbind("mouseup");
+	$(document).unbind("keyup");
+	$(mouseOverControl).bind("mouseup", unmarkTile);
+}
+
+function showAsUnmarkedTile(data) {
+	$(mouseOverControl).html("&nbsp");
+	var currentFlaggedCount = parseInt($("#mineCount").text()); 
+	$("#mineCount").text(currentFlaggedCount + 1);
+	$(mouseOverControl).unbind("mouseup");
+	$(document).unbind("keyup");
+	$(mouseOverControl).bind("mouseup", markTile);
 }

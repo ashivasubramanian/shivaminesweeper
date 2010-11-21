@@ -55,7 +55,9 @@
 					<tr>
 						<td class=fieldSpacer>&nbsp;</td>
 						<td>Mines:</td>
-						<td class=field>5</td>
+						<td id=mineCount class=field>
+							<s:property value="%{#session[#request['sessionId']].mode.mineCount}"/>
+						</td>
 						<td class=fieldSpacer>&nbsp;</td>
 						<td>Time:</td>
 						<td class=field>5</td>
