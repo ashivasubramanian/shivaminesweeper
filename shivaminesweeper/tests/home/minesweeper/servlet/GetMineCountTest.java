@@ -125,7 +125,7 @@ public class GetMineCountTest {
 	}
 	
 	@Test
-	public void contiguousEmptyTilesJSONMustbeReturnedForTilesWithZeroMineCount() {
+	public void contiguousEmptyTilesJSONMustBeReturnedForTilesWithZeroMineCount() {
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
 		servlet.setServletResponse(response);
