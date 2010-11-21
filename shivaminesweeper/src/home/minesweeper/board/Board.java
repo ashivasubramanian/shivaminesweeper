@@ -201,7 +201,7 @@ public class Board {
 	 */
 	public Set<Cell> determineContiguousEmptyCells(int currentRow, int currentColumn) {
 		System.out.println(this);
-		Cell cell = (Cell) rows[currentRow][currentColumn];
+		Cell cell = rows[currentRow][currentColumn];
 		Set<Cell> cells = new LinkedHashSet<Cell>();
 		cells.add(cell);
 		Set<Cell> contiguousCells = determineContiguousEmptyCells(cells, cells);
@@ -221,7 +221,7 @@ public class Board {
 			boolean addedCell = false;
 			//Do cells on either side of the current cell have bombs?
 			if (currentColumn > 0) {
-				Cell left = (Cell) rows[currentRow][currentColumn - 1];
+				Cell left = rows[currentRow][currentColumn - 1];
 				System.out.println("left (" + currentRow + "," + (currentColumn - 1)
 						+ ") => " + left.getMineCount());
 				if (left.getMineCount() == 0 && !allCellsWithValueZero.contains(left)) {
@@ -231,7 +231,7 @@ public class Board {
 				}
 			}
 			if (currentColumn < columnIndex) {
-				Cell right = (Cell) rows[currentRow][currentColumn + 1];
+				Cell right = rows[currentRow][currentColumn + 1];
 				System.out.println("right (" + currentRow + "," + (currentColumn + 1)
 						+ ") => " + right.getMineCount());
 				if (right.getMineCount() == 0 && !allCellsWithValueZero.contains(right)) {
@@ -244,7 +244,7 @@ public class Board {
 			//have bombs?
 			if (currentRow > 0) {
 				if (currentColumn > 0) {
-					Cell topLeft = (Cell) rows[currentRow - 1][currentColumn - 1];
+					Cell topLeft = rows[currentRow - 1][currentColumn - 1];
 					System.out.println("top left (" + (currentRow - 1) + ","
 							+ (currentColumn - 1) + ") => " + topLeft.getMineCount());
 					if (topLeft.getMineCount() == 0 && !allCellsWithValueZero.contains(topLeft)) {
@@ -253,7 +253,7 @@ public class Board {
 							addedCell = true;
 					}
 				}
-				Cell top = (Cell) rows[currentRow - 1][currentColumn];
+				Cell top = rows[currentRow - 1][currentColumn];
 				System.out.println("top (" + (currentRow - 1) + "," + currentColumn
 						+ ") => " + top.getMineCount());
 				if (top.getMineCount() == 0 && !allCellsWithValueZero.contains(top)) {
@@ -262,7 +262,7 @@ public class Board {
 						addedCell = true;
 				}
 				if (currentColumn < columnIndex) {
-					Cell topRight = (Cell) rows[currentRow - 1][currentColumn + 1];
+					Cell topRight = rows[currentRow - 1][currentColumn + 1];
 					System.out.println("top right (" + (currentRow - 1) + ","
 									+ (currentColumn + 1) + ") => "
 									+ topRight.getMineCount());
@@ -277,7 +277,7 @@ public class Board {
 			//have bombs?
 			if (currentRow < rowIndex) {
 				if (currentColumn > 0) {
-					Cell bottomLeft = (Cell) rows[currentRow + 1][currentColumn - 1];
+					Cell bottomLeft = rows[currentRow + 1][currentColumn - 1];
 					System.out.println("bottom left (" + (currentRow + 1) + ","
 							+ (currentColumn - 1) + ") => "
 							+ bottomLeft.getMineCount());
@@ -287,7 +287,7 @@ public class Board {
 							addedCell = true;
 					}
 				}
-				Cell bottom = (Cell) rows[currentRow + 1][currentColumn];
+				Cell bottom = rows[currentRow + 1][currentColumn];
 				System.out.println("bottom (" + (currentRow + 1) + ","
 						+ currentColumn + ") => " + bottom.getMineCount());
 				if (bottom.getMineCount() == 0 && !allCellsWithValueZero.contains(bottom)) {
@@ -296,7 +296,7 @@ public class Board {
 						addedCell = true;
 				}
 				if (currentColumn < columnIndex) {
-					Cell bottomRight = (Cell) rows[currentRow + 1][currentColumn + 1];
+					Cell bottomRight = rows[currentRow + 1][currentColumn + 1];
 					System.out.println("bottom right (" + (currentRow + 1) + ","
 							+ (currentColumn + 1) + ") => "
 							+ bottomRight.getMineCount());
