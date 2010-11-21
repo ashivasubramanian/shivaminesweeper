@@ -34,9 +34,9 @@ public class GetMineCountTest {
 						new Cell(0, false, 0, 5), new Cell(0, false, 0, 6), new Cell(0, false, 0, 7), new Cell(0, false, 0, 8)},
 					{new Cell(1, false, 1, 0), new Cell(2, false, 1, 1), new Cell(0, false, 1 ,2), new Cell(0, false, 1, 3), new Cell(0, false, 1, 4),
 						new Cell(0, false, 1, 5), new Cell(0, false, 1, 6), new Cell(0, false, 1, 7), new Cell(0, false, 1, 8)},
-					{new Cell(0, false, 2, 0), new Cell(0, false, 2, 1), new Cell(0, false, 2, 2), new Cell(0, false, 2, 3), new Cell(-1, false, 2, 4),
+					{new Cell(3, false, 2, 0), new Cell(4, false, 2, 1), new Cell(0, false, 2, 2), new Cell(0, false, 2, 3), new Cell(-1, false, 2, 4),
 						new Cell(0, false, 2, 5), new Cell(0, false, 2, 6), new Cell(0, false, 2, 7), new Cell(0, false, 2, 8)},
-					{new Cell(0, false, 3, 0), new Cell(0, false, 3, 1), new Cell(0, false, 3, 2), new Cell(0, false, 3, 3), new Cell(0, false, 3, 4),
+					{new Cell(6, false, 3, 0), new Cell(0, false, 3, 1), new Cell(0, false, 3, 2), new Cell(0, false, 3, 3), new Cell(0, false, 3, 4),
 						new Cell(0, false, 3, 5), new Cell(0, false, 3, 6), new Cell(0, false, 3, 7), new Cell(0, false, 3, 8)},
 					{new Cell(0, false, 4, 0), new Cell(0, false, 4, 1), new Cell(0, false, 4, 2), new Cell(0, false, 4, 3), new Cell(0, false, 4, 4),
 						new Cell(0, false, 4, 5), new Cell(0, false, 4, 6), new Cell(0, false, 4, 7), new Cell(0, false, 4, 8)},
@@ -150,7 +150,6 @@ public class GetMineCountTest {
 	
 	@Test
 	public void colourShouldBeGreenIfMineCountIs1Or2() {
-		
 		GetMineCount servlet = new GetMineCount();
 		servlet.setServletRequest(request);
 		servlet.setServletResponse(response);
@@ -164,5 +163,50 @@ public class GetMineCountTest {
 			ioe.printStackTrace();
 		}
 		Assert.assertEquals("Colour is not green.", "{\"mineCount\" : \"1\", \"colour\" : \"green\", \"x\" : \"1\", \"y\" : \"0\"}", new String(mineCount));
+	}
+	
+	@Test
+	public void colourShouldBeOrangeIfMineCountIs3() {
+		GetMineCount servlet = new GetMineCount();
+		servlet.setServletRequest(request);
+		servlet.setServletResponse(response);
+		Mockito.when(request.getParameter("row")).thenReturn("2");
+		Mockito.when(request.getParameter("column")).thenReturn("0");
+		servlet.execute();
+		byte mineCountJSON[] = new byte[62];
+		try {
+			servlet.getInputStream().read(mineCountJSON);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		Assert.assertEquals("Colour is not orange.", "{\"mineCount\" : \"3\", \"colour\" : \"orange\", \"x\" : \"2\", \"y\" : \"0\"}", new String(mineCountJSON));
+	}
+	
+	@Test
+	public void colourShouldBeRedIfMineCountIs4OrGreaterThan4() {
+		GetMineCount servlet = new GetMineCount();
+		servlet.setServletRequest(request);
+		servlet.setServletResponse(response);
+		Mockito.when(request.getParameter("row")).thenReturn("2");
+		Mockito.when(request.getParameter("column")).thenReturn("1");
+		servlet.execute();
+		byte mineCountJSON[] = new byte[59];
+		try {
+			servlet.getInputStream().read(mineCountJSON);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		Assert.assertEquals("Colour is not red.", "{\"mineCount\" : \"4\", \"colour\" : \"red\", \"x\" : \"2\", \"y\" : \"1\"}", new String(mineCountJSON));
+		
+		Mockito.when(request.getParameter("row")).thenReturn("3");
+		Mockito.when(request.getParameter("column")).thenReturn("0");
+		servlet.execute();
+		try {
+			servlet.getInputStream().read(mineCountJSON);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		Assert.assertEquals("Colour is not red for minecount > 4.",
+				"{\"mineCount\" : \"6\", \"colour\" : \"red\", \"x\" : \"3\", \"y\" : \"0\"}", new String(mineCountJSON));
 	}
 }
