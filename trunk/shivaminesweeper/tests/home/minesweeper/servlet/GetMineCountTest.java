@@ -138,7 +138,6 @@ public class GetMineCountTest {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		System.out.println(new String(actualJSON));
 		String expectedJSON = "{\"contiguous\": [";
 		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"8\", \"y\" : \"0\"},{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"8\", \"y\" : \"1\"},";
 		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"8\", \"y\" : \"2\"},{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"8\", \"y\" : \"3\"},";
