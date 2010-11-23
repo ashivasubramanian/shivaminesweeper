@@ -3,6 +3,7 @@ package home.minesweeper.servlet;
 import home.minesweeper.board.Board;
 import home.minesweeper.board.BoardModes;
 import home.minesweeper.board.Cell;
+import home.minesweeper.servlet.GetMineCount;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -31,7 +32,7 @@ public class GetMineCountTest {
 			board = new Board(BoardModes.BEGINNER);
 			Cell rows[][] = {
 					{new Cell(4, false, 0, 0), new Cell(0, false, 0, 1), new Cell(0, false, 0, 2), new Cell(5, false, 0, 3), new Cell(0, false, 0, 4),
-						new Cell(0, false, 0, 5), new Cell(0, false, 0, 6), new Cell(0, false, 0, 7), new Cell(0, false, 0, 8)},
+						new Cell(0, false, 0, 5), new Cell(0, false, 0, 6), new Cell(0, false, 0, 7), new Cell(-1, false, 0, 8)},
 					{new Cell(1, false, 1, 0), new Cell(2, false, 1, 1), new Cell(0, false, 1 ,2), new Cell(0, false, 1, 3), new Cell(0, false, 1, 4),
 						new Cell(0, false, 1, 5), new Cell(0, false, 1, 6), new Cell(0, false, 1, 7), new Cell(0, false, 1, 8)},
 					{new Cell(3, false, 2, 0), new Cell(4, false, 2, 1), new Cell(0, false, 2, 2), new Cell(0, false, 2, 3), new Cell(-1, false, 2, 4),
@@ -94,18 +95,6 @@ public class GetMineCountTest {
 			servlet.getInputStream().read(mineCountAsByte);
 			String mineCountJSON = new String(mineCountAsByte);
 			Assert.assertEquals("Mine count is not 3", "{\"mineCount\" : \"3\", \"colour\" : \"orange\", \"x\" : \"8\", \"y\" : \"8\"}", mineCountJSON);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-
-		Mockito.when(request.getParameter("row")).thenReturn("2");
-		Mockito.when(request.getParameter("column")).thenReturn("4");
-		servlet.execute();
-		try {
-			byte mineCountAsByte[] = new byte[57];
-			servlet.getInputStream().read(mineCountAsByte);
-			String mineCountJSON = new String(mineCountAsByte);
-			Assert.assertEquals("Mine count is not -1", "{\"mineCount\" : \"-1\", \"colour\" : \"\", \"x\" : \"2\", \"y\" : \"4\"}", mineCountJSON);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -208,5 +197,22 @@ public class GetMineCountTest {
 		}
 		Assert.assertEquals("Colour is not red for minecount > 4.",
 				"{\"mineCount\" : \"6\", \"colour\" : \"red\", \"x\" : \"3\", \"y\" : \"0\"}", new String(mineCountJSON));
+	}
+	
+	@Test
+	public void gameShouldEndWhenMineCountIsMinusOne() {
+		GetMineCount servlet = new GetMineCount();
+		servlet.setServletRequest(request);
+		servlet.setServletResponse(response);
+		Mockito.when(request.getParameter("row")).thenReturn("0");
+		Mockito.when(request.getParameter("column")).thenReturn("8");
+		servlet.execute();
+		byte gameOverJSON[] = new byte[24];
+		try {
+			servlet.getInputStream().read(gameOverJSON);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		Assert.assertEquals("Game over JSON is incorrect!!", "{\"status\" : \"game_over\"}", new String(gameOverJSON));
 	}
 }

@@ -46,11 +46,13 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 		int row = Integer.parseInt(request.getParameter("row"));
 		int column = Integer.parseInt(request.getParameter("column"));
 		Cell cell = board.getRows()[row][column];
-		String json;
-		if (cell.getMineCount() != 0) {
+		String json = "";
+		if (cell.getMineCount() > 0) {
 			 json = cell.toJSON();
-		} else {
+		} else if (cell.getMineCount() == 0) {
 			json = constructContiguousCellsJSON(board.determineContiguousEmptyCells(row, column));
+		} else if (cell.getMineCount() < 0) {
+			json = "{\"status\" : \"game_over\"}";
 		}
 		logger.log(Level.INFO, "row : " + row + " col: " + column + " mine count : " + json);
 		response.setHeader("pragma", "no-cache");
