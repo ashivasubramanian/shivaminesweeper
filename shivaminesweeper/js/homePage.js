@@ -28,15 +28,23 @@ function unhighlight() {
 }
 
 function revealCell(data) {
-	if (!data.contiguous) {
-		$(mouseOverControl).css("background-color", "white");
-		$(mouseOverControl).text(data.mineCount);
-		$(mouseOverControl).css("color", data.colour);
+	if (data.status && data.status == "game_over") {
+		$("#board td").unbind("click");
+		$("#board td").unbind("mouseover");
+		$("#board td").unbind("mouseout");
+		$(document).unbind("keydown");
+		$("#board td").unbind("mouseup");
+		alert("You stepped on a mine!! \nGAME OVER!!");
 	} else if (data.contiguous) {
 		for (i = 0; i < data.contiguous.length; i++) {
 			var table = document.getElementById("board");
 			table.rows[data.contiguous[i].x].cells[data.contiguous[i].y].style.backgroundColor = "white";
 		}
+	} else {
+		$(mouseOverControl).css("background-color", "white");
+		$(mouseOverControl).text(data.mineCount);
+		$(mouseOverControl).css("color", data.colour);
+		
 	}
 }
 
