@@ -1,6 +1,7 @@
 package home.minesweeper.board;
 
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -191,7 +192,13 @@ public class Board {
 	 * <code>false</code>.
 	 */
 	public boolean validateCurrentBoardState() {
-		return false;
+		Collection<Integer> values = markedTiles.values();
+		for (int value : values) {
+			if (value != -1) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
