@@ -3,7 +3,7 @@
 	<head>
 		<title> Minesweeper </title>
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/homePage.css" type="text/css"></link>
-		<script src="<%=request.getContextPath()%>/js/jquery-1.3.2.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/jquery-1.4.4.min.js"></script>
 		<script src="<%=request.getContextPath()%>/js/homePage.js"></script>
 	</head>
 	<body>
@@ -82,6 +82,8 @@
 					</li>
 				</ul>
 			</div>
+			
+			<s:hidden id="totalMines" value="%{#session[#request['sessionId']].mode.mineCount}"/>
 		</form>
 	</body>
 </html>

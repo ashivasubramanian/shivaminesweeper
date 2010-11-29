@@ -1,6 +1,9 @@
 package home.minesweeper.board;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import home.minesweeper.board.Board;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -429,5 +432,60 @@ public class BoardTest {
 		board.unmarkTile(2, 2);
 		assertEquals("Tile not removed from marked list.",
 			markedTilesCount - 1, board.getMarkedTiles().size());
+	}
+	
+	@Test
+	public void verifyBoardValidationReturnsTrueWhenAllMinesAreMarked() {
+		Board board = new Board(BoardModes.BEGINNER);
+		Cell rows[][] = {
+				{new Cell(-1, false, 0, 0), new Cell(0, false, 0, 1), new Cell(0, false, 0, 2), new Cell(0, false, 0, 3), new Cell(0, false, 0, 4),
+					new Cell(0, false, 0, 5), new Cell(0, false, 0, 6), new Cell(0, false, 0, 7), new Cell(0, false, 0, 8)},
+				{new Cell(-1, false, 1, 0), new Cell(0, false, 1, 1), new Cell(0, false, 1, 2), new Cell(0, false, 1, 3), new Cell(0, false, 1, 4),
+					new Cell(0, false, 1, 5), new Cell(0, false, 1, 6), new Cell(0, false, 1, 7), new Cell(0, false, 1, 8)},
+				{new Cell(-1, false, 2, 0), new Cell(0, false, 2, 1), new Cell(0, false, 2, 2), new Cell(0, false, 2, 3), new Cell(0, false, 2, 4),
+					new Cell(0, false, 2, 5), new Cell(0, false, 2, 6), new Cell(0, false, 2, 7), new Cell(0, false, 2, 8)},
+				{new Cell(-1, false, 3, 0), new Cell(0, false, 3, 1), new Cell(0, false, 3, 2), new Cell(0, false, 3, 3), new Cell(0, false, 3, 4),
+					new Cell(0, false, 3, 5), new Cell(0, false, 3, 6), new Cell(0, false, 3, 7), new Cell(0, false, 3 ,8)},
+				{new Cell(-1, false, 4, 0), new Cell(0, false, 4, 1), new Cell(0, false, 4, 2), new Cell(0, false, 4, 3), new Cell(0, false, 4, 4),
+					new Cell(0, false, 4, 5), new Cell(0, false, 4, 6), new Cell(0, false, 4, 7), new Cell(0, false, 4, 8)},
+				{new Cell(-1, false, 5, 0), new Cell(-1, false, 5, 1), new Cell(0, false, 5, 2), new Cell(0, false, 5, 3), new Cell(0, false, 5, 4),
+					new Cell(0, false, 5, 5), new Cell(0, false, 5, 6), new Cell(0, false, 5, 7), new Cell(0, false, 5, 8)},
+				{new Cell(-1, false, 6, 0), new Cell(0, false, 6, 1), new Cell(0, false, 6, 2), new Cell(0, false, 6, 3), new Cell(0, false, 6, 4),
+					new Cell(0, false, 6, 5), new Cell(0, false, 6, 6), new Cell(0, false, 6, 7), new Cell(0, false, 6, 8)},
+				{new Cell(-1, false, 7, 0), new Cell(0, false, 7, 1), new Cell(0, false, 7, 2), new Cell(0, false, 7, 3), new Cell(0, false, 7, 4),
+					new Cell(0, false, 7, 5), new Cell(0, false, 7, 6), new Cell(0, false, 7, 7), new Cell(0, false, 7, 8)},
+				{new Cell(0, false, 8, 0), new Cell(0, false, 8, 1), new Cell(0, false, 8, 2), new Cell(0, false, 8, 3), new Cell(0, false, 8, 4),
+					new Cell(0, false, 8, 5), new Cell(0, false, 8, 6), new Cell(0, false, 8, 7), new Cell(-1, false, 8, 8)}
+		};
+		
+		try {
+			Field field = board.getClass().getDeclaredField("rows");
+			field.setAccessible(true);
+			field.set(board, rows);
+			
+			Method method = board.getClass().getDeclaredMethod("fillNonMineCellsWithNumbers", BoardModes.class);
+			method.setAccessible(true);
+			method.invoke(board, BoardModes.BEGINNER);
+			
+			board.markTile(0, 0, board.getRows()[0][0].getMineCount());
+			board.markTile(1, 0, board.getRows()[1][0].getMineCount());
+			board.markTile(2, 0, board.getRows()[2][0].getMineCount());
+			board.markTile(3, 0, board.getRows()[3][0].getMineCount());
+			board.markTile(4, 0, board.getRows()[4][0].getMineCount());
+			board.markTile(5, 0, board.getRows()[5][0].getMineCount());
+			board.markTile(5, 1, board.getRows()[5][1].getMineCount());
+			board.markTile(6, 0, board.getRows()[6][0].getMineCount());
+			board.markTile(7, 0, board.getRows()[7][0].getMineCount());
+			board.markTile(8, 8, board.getRows()[8][8].getMineCount());
+			assertTrue("Validation logic is incorrect!!", board.validateCurrentBoardState());
+		} catch (NoSuchFieldException nsfe) {
+			nsfe.printStackTrace();
+		} catch (IllegalAccessException iae) {
+			iae.printStackTrace();
+		} catch (NoSuchMethodException nsme) {
+			nsme.printStackTrace();
+		} catch (InvocationTargetException ite) {
+			ite.printStackTrace();
+		}
 	}
 }

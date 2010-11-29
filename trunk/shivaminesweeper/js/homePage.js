@@ -129,6 +129,10 @@ function showAsMarkedTile(data) {
 	$(mouseOverControl).unbind("mouseup");
 	$(document).unbind("keyup");
 	$(mouseOverControl).bind("mouseup", unmarkTile);
+	currentFlaggedCount = parseInt($("#mineCount").text()); 
+	if (currentFlaggedCount == 0) {
+		$.getJSON("http://localhost:8080/mine/validateBoard", handleValidationResult);
+	}
 }
 
 function showAsUnmarkedTile(data) {
@@ -138,4 +142,21 @@ function showAsUnmarkedTile(data) {
 	$(mouseOverControl).unbind("mouseup");
 	$(document).unbind("keyup");
 	$(mouseOverControl).bind("mouseup", markTile);
+	currentFlaggedCount = parseInt($("#mineCount").text()); 
+	if (currentFlaggedCount == 0) {
+		$.getJSON("http://localhost:8080/mine/validateBoard", handleValidationResult);
+	}
+}
+
+function handleValidationResult(data) {
+	if (data.validity) {
+		$("#board td").unbind("click");
+		$("#board td").unbind("mouseover");
+		$("#board td").unbind("mouseout");
+		$(document).unbind("keydown");
+		$("#board td").unbind("mouseup");
+		alert("CONGRATULATIONS!!\nYou have marked all mines!!");
+	} else if (!data.validity) {
+		alert("Validation fails..!!");
+	}
 }
