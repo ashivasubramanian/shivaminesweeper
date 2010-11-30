@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="shivaminesweeper" default="deploy">
-	<property name="tomcat.dir" value="E:\Program Files\apache-tomcat-6.0.29"/>
-	
+	<property name="CATALINA_HOME" value="/usr/share/tomcat6"/>
+	<property name="CATALINA_BASE" value="/var/lib/tomcat6"/>
+
 	<target name="clean" description="Deletes all files (if any) that were previously created by this build.xml and generates them by running the tasks again.">
 		<delete dir="WEB-INF\classes"/>
 		<delete file="minetest.jar"/>
@@ -16,7 +17,7 @@
 				<fileset dir="WEB-INF\lib">
 					<include name="*.jar"/>
 				</fileset>
-				<fileset dir="${tomcat.dir}\lib" includes="servlet-api.jar"/>
+				<fileset dir="${CATALINA_HOME}\lib" includes="servlet-api.jar"/>
 			</classpath>
 		</javac>
 		<copy file="src\struts.xml" todir="WEB-INF\classes"/>
@@ -31,7 +32,7 @@
 				<fileset dir="WEB-INF\lib">
 					<include name="*.jar"/>
 				</fileset>
-				<fileset dir="${tomcat.dir}\lib" includes="servlet-api.jar"/>
+				<fileset dir="${CATALINA_HOME}\lib" includes="servlet-api.jar"/>
 			<path path="minetest.jar"/>
 			</classpath>
 			<formatter type="plain" usefile="false"/>
@@ -54,6 +55,6 @@
 		</war>
 	</target>
 	<target name="deploy" description="Deploys the WAR file to the Tomcat server" depends="build">
-		<copy file="mine.war" todir="${tomcat.dir}\webapps" overwrite="true"/>
+		<copy file="mine.war" todir="${CATALINA_BASE}\webapps" overwrite="true"/>
 	</target>
 </project>
