@@ -2,6 +2,7 @@ $(document).ready(doEventBinding);
 var row = 0;
 var column = 0;
 var mouseOverControl;
+var isFirstRevealAMine = false;
 
 function doEventBinding() {
 	$("#board td").bind("click", reveal);
@@ -29,6 +30,11 @@ function unhighlight() {
 
 function revealCell(data) {
 	if (data.status && data.status == "game_over") {
+		if (!isFirstRevealAMine) {
+			alert("You clicked first on a mine!! Presenting a new board for you...");
+			document.forms[0].action = "http://localhost:8080/mine";
+			document.forms[0].submit();
+		}
 		$("#board td").unbind("click");
 		$("#board td").unbind("mouseover");
 		$("#board td").unbind("mouseout");
@@ -36,15 +42,20 @@ function revealCell(data) {
 		$("#board td").unbind("mouseup");
 		alert("You stepped on a mine!! \nGAME OVER!!");
 	} else if (data.contiguous) {
+		if (!isFirstRevealAMine) {
+			isFirstRevealAMine = true;
+		} 
 		for (i = 0; i < data.contiguous.length; i++) {
 			var table = document.getElementById("board");
 			table.rows[data.contiguous[i].x].cells[data.contiguous[i].y].style.backgroundColor = "white";
 		}
 	} else {
+		if (!isFirstRevealAMine) {
+			isFirstRevealAMine = true;
+		}
 		$(mouseOverControl).css("background-color", "white");
 		$(mouseOverControl).text(data.mineCount);
 		$(mouseOverControl).css("color", data.colour);
-		
 	}
 }
 
