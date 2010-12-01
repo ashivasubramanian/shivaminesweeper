@@ -67,14 +67,11 @@ public class Board {
 		int columnCount = mode.getColumns();
 		int mineCounter = 0;
 		while (mineCounter < mode.getMineCount()) { 
-			for (int i = 0; i < rowCount; i++) {
-				for (int j = 0; j < columnCount; j++) {
-					if (random.nextBoolean()) {
-						rows[i][j] = new Cell(-1, false, i, j); 
-						mineCounter++;
-						if (mineCounter == mode.getMineCount()) return;
-					}
-				}
+			int row = random.nextInt(mode.getRows());
+			int column = random.nextInt(mode.getColumns());
+			if (!rows[row][column] instanceof Cell) {
+				rows[row][column] = new Cell(-1, false, row, column);
+				mineCounter++;
 			}
 		}
 	}
