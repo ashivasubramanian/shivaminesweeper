@@ -4,7 +4,7 @@ import home.minesweeper.board.Board;
 import home.minesweeper.board.Cell;
 
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +57,7 @@ public class GetMineCount extends ActionSupport implements ServletRequestAware, 
 		logger.log(Level.INFO, "row : " + row + " col: " + column + " mine count : " + json);
 		response.setHeader("pragma", "no-cache");
 		response.setDateHeader("expires", 0);
-		inputStream = new StringBufferInputStream(json);
+		inputStream = new ByteArrayInputStream(json.getBytes());
 		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
