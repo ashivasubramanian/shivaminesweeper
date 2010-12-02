@@ -69,7 +69,7 @@ public class Board {
 		while (mineCounter < mode.getMineCount()) { 
 			int row = random.nextInt(mode.getRows());
 			int column = random.nextInt(mode.getColumns());
-			if (!rows[row][column] instanceof Cell) {
+			if (!(rows[row][column] instanceof Cell)) {
 				rows[row][column] = new Cell(-1, false, row, column);
 				mineCounter++;
 			}
