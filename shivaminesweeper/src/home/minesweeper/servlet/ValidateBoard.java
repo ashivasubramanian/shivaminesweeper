@@ -3,7 +3,7 @@ package home.minesweeper.servlet;
 import home.minesweeper.board.Board;
 
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class ValidateBoard implements ServletRequestAware {
 		} else {
 			json = "{\"validity\" : false}";
 		}
-		inputStream = new StringBufferInputStream(json);
+		inputStream = new ByteArrayInputStream(json);
 		logger.info(json);
 		logger.exiting(this.getClass().getName(), "execute");
 		return ActionSupport.SUCCESS;

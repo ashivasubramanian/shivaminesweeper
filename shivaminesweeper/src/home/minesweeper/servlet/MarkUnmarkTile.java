@@ -3,7 +3,7 @@ package home.minesweeper.servlet;
 import home.minesweeper.board.Board;
 
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
+import java.io.ByteArrayInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +28,7 @@ public class MarkUnmarkTile extends ActionSupport implements ServletRequestAware
 		Board board = (Board) request.getSession().getAttribute(request.getRequestedSessionId());
 		logger.log(Level.INFO, row + " " + column + " " + board.getRows()[row][column].getMineCount());
 		board.markTile(row, column, board.getRows()[row][column].getMineCount());
-		inputStream = new StringBufferInputStream("{\"success\" : \"true\"}");
+		inputStream = new ByteArrayInputStream("{\"success\" : \"true\"}");
 		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
@@ -40,7 +40,7 @@ public class MarkUnmarkTile extends ActionSupport implements ServletRequestAware
 		Board board = (Board) request.getSession().getAttribute(request.getRequestedSessionId());
 		logger.log(Level.INFO, row + " " + column);
 		board.unmarkTile(row, column);
-		inputStream = new StringBufferInputStream("{\"success\" : \"true\"}");
+		inputStream = new ByteArrayInputStream("{\"success\" : \"true\"}");
 		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
