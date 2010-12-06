@@ -15,7 +15,7 @@ function doEventBinding() {
 }
 
 function reveal() {
-	$.getJSON("http://localhost:8080/mine/getMineCount", {"row":row, "column":column}, revealCell);
+	$.getJSON("getMineCount", {"row":row, "column":column}, revealCell);
 }	
 
 function highlight() {
@@ -75,9 +75,9 @@ function determineAction(event) {
 		if(event.shiftKey) {
 			var control = document.getElementById("board").rows[row].cells[column];
 			if (control.innerHTML.indexOf("<img") >= 0) {
-				$.get("http://localhost:8080/mine/unmarkTile", {"row":row, "column":column}, showAsUnmarkedTile);
+				$.get("unmarkTile", {"row":row, "column":column}, showAsUnmarkedTile);
 			} else {
-				$.get("http://localhost:8080/mine/markTile", {"row":row, "column":column}, showAsMarkedTile);
+				$.get("markTile", {"row":row, "column":column}, showAsMarkedTile);
 			}
 			return;
 		}
@@ -124,17 +124,17 @@ function changeMode() {
 
 function markTile(event) {
 	if (event.button == 2) {
-			$.get("http://localhost:8080/mine/markTile", {"row":row, "column":column}, showAsMarkedTile);
+			$.get("markTile", {"row":row, "column":column}, showAsMarkedTile);
 	}
 }
 
 function unmarkTile(event) {
 	if (event.button == 2) {
-		$.get("http://localhost:8080/mine/unmarkTile", {"row":row, "column":column}, showAsUnmarkedTile);
+		$.get("unmarkTile", {"row":row, "column":column}, showAsUnmarkedTile);
 	}
 }
 function showAsMarkedTile(data) {
-	$(mouseOverControl).html("<img src='http://localhost:8080/mine/images/flag.jpg'/>");
+	$(mouseOverControl).html("<img src='images/flag.jpg'/>");
 	var currentFlaggedCount = parseInt($("#mineCount").text()); 
 	$("#mineCount").text(currentFlaggedCount - 1);
 	$(mouseOverControl).unbind("mouseup");
@@ -142,7 +142,7 @@ function showAsMarkedTile(data) {
 	$(mouseOverControl).bind("mouseup", unmarkTile);
 	currentFlaggedCount = parseInt($("#mineCount").text()); 
 	if (currentFlaggedCount == 0) {
-		$.getJSON("http://localhost:8080/mine/validateBoard", handleValidationResult);
+		$.getJSON("validateBoard", handleValidationResult);
 	}
 }
 
@@ -155,7 +155,7 @@ function showAsUnmarkedTile(data) {
 	$(mouseOverControl).bind("mouseup", markTile);
 	currentFlaggedCount = parseInt($("#mineCount").text()); 
 	if (currentFlaggedCount == 0) {
-		$.getJSON("http://localhost:8080/mine/validateBoard", handleValidationResult);
+		$.getJSON("validateBoard", handleValidationResult);
 	}
 }
 
