@@ -28,7 +28,8 @@ public class MarkUnmarkTile extends ActionSupport implements ServletRequestAware
 		Board board = (Board) request.getSession().getAttribute(request.getRequestedSessionId());
 		logger.log(Level.INFO, row + " " + column + " " + board.getRows()[row][column].getMineCount());
 		board.markTile(row, column, board.getRows()[row][column].getMineCount());
-		inputStream = new ByteArrayInputStream("{\"success\" : \"true\"}");
+		String json = "{\"success\" : \"true\"}";
+		inputStream = new ByteArrayInputStream(json.getBytes());
 		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
@@ -40,7 +41,8 @@ public class MarkUnmarkTile extends ActionSupport implements ServletRequestAware
 		Board board = (Board) request.getSession().getAttribute(request.getRequestedSessionId());
 		logger.log(Level.INFO, row + " " + column);
 		board.unmarkTile(row, column);
-		inputStream = new ByteArrayInputStream("{\"success\" : \"true\"}");
+		String json = "{\"success\" : \"true\"}";
+		inputStream = new ByteArrayInputStream(json.getBytes());
 		logger.exiting(this.getClass().getName(), "execute");
 		return SUCCESS;
 	}
