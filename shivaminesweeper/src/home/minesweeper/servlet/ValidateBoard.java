@@ -29,7 +29,7 @@ public class ValidateBoard implements ServletRequestAware {
 		} else {
 			json = "{\"validity\" : false}";
 		}
-		inputStream = new ByteArrayInputStream(json);
+		inputStream = new ByteArrayInputStream(json.getBytes());
 		logger.info(json);
 		logger.exiting(this.getClass().getName(), "execute");
 		return ActionSupport.SUCCESS;
