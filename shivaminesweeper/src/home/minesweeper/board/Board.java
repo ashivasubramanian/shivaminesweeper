@@ -63,8 +63,6 @@ public class Board {
 	private void fillRequiredCellsWithMines(BoardModes mode) {
 		assert mode != null : "Mode is null in fillRequiredCellsWithMines.";
 		SecureRandom random = new SecureRandom();
-		int rowCount = mode.getRows();
-		int columnCount = mode.getColumns();
 		int mineCounter = 0;
 		while (mineCounter < mode.getMineCount()) { 
 			int row = random.nextInt(mode.getRows());

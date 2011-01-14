@@ -15,11 +15,6 @@ public class Cell {
 	 */
 	private int mineCount;
 	
-	/**
-	 * Determines whether the mine count is to be shown; if true, the mine count is shown, otherwise it is not.
-	 */
-	private boolean visible;
-	
 	private String colour;
 	
 	private int x;
@@ -36,7 +31,6 @@ public class Cell {
 	 */
 	public Cell(int mineCount, boolean visible, int x, int y) {
 		this.mineCount = mineCount;
-		this.visible = visible;
 		colour = getColour(mineCount);
 		this.x = x;
 		this.y = y;
@@ -50,22 +44,6 @@ public class Cell {
 		return mineCount;
 	}
 
-	/**
-	 * Returns whether the mine count is to be shown or not.
-	 * @return whether the mine count is to be shown or not.
-	 */
-	public boolean isVisible() {
-		return visible;
-	}
-
-	/**
-	 * Sets whether the mine count is to be shown or not.
-	 * @param visible A <code>boolean</code> value that determines whether the mine count is to be shown or not.
-	 */
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-	
 	private String getColour(int mineCount) {
 		String colour = "";
 		if (mineCount == 1 || mineCount == 2) {
@@ -101,11 +79,7 @@ public class Cell {
 			throw new IllegalArgumentException("Can compare only instances of home.minesweeper.board.Cell!!");
 		}
 		Cell cell = (Cell) object;
-		if (cell.getMineCount() == mineCount && cell.getX() == x && cell.getY() == y) {
-			return true;
-		} else {
-			return false;
-		}
+		return (cell.getMineCount() == mineCount && cell.getX() == x && cell.getY() == y);
 	}
 	
 	@Override
