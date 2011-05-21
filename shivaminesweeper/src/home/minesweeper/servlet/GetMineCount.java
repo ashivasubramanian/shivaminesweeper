@@ -3,8 +3,8 @@ package home.minesweeper.servlet;
 import home.minesweeper.board.Board;
 import home.minesweeper.board.Cell;
 
-import java.io.InputStream;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;

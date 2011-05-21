@@ -3,11 +3,9 @@ package home.minesweeper.servlet;
 import home.minesweeper.board.Board;
 import home.minesweeper.board.BoardModes;
 import home.minesweeper.board.Cell;
-import home.minesweeper.servlet.GetMineCount;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
