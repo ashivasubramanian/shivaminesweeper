@@ -3,18 +3,16 @@ package home.minesweeper.servlet;
 import home.minesweeper.board.Board;
 import home.minesweeper.board.BoardModes;
 import home.minesweeper.board.Cell;
-import home.minesweeper.servlet.MarkUnmarkTile;
 
 import java.lang.reflect.Field;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mockito.Mockito;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 public class MarkUnmarkTileTest {
 	
