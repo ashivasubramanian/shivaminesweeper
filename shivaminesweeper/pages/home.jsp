@@ -37,14 +37,7 @@
 					<s:iterator value="%{#session[#request['sessionId']].rows}" var="singleRow">
 						<tr>
 						<s:iterator value="#singleRow" var="cell">
-							<td>
-								<s:if test="cell.visible == true">
-									<s:property value="cell.tileValue"/>
-								</s:if>
-								<s:else>
-									&nbsp;
-								</s:else>
-							</td>
+							<td>&nbsp;</td>
 						</s:iterator>
 						</tr>
 					</s:iterator>
