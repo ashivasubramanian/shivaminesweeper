@@ -17,13 +17,13 @@ public class BoardBuilder {
 		rows = new Cell[mode.getRows()][mode.getColumns()];
 		for (int i = 0; i < mode.getRows(); i++) {
 			for (int j = 0; j < mode.getColumns(); j++) {
-				rows[i][j] = new Cell(0, false, i, j);
+				rows[i][j] = new Cell(0, i, j);
 			}
 		}
 	}
 	
 	public BoardBuilder withMineIn(int x, int y) {
-		Cell cell = new Cell(-1, false, x, y);
+		Cell cell = new Cell(-1, x, y);
 		rows[x][y] = cell;
 		return this;
 	}

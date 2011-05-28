@@ -68,7 +68,7 @@ public class Board {
 			int row = random.nextInt(mode.getRows());
 			int column = random.nextInt(mode.getColumns());
 			if (!(rows[row][column] instanceof Cell)) {
-				rows[row][column] = new Cell(-1, false, row, column);
+				rows[row][column] = new Cell(-1, row, column);
 				mineCounter++;
 			}
 		}
@@ -159,7 +159,7 @@ public class Board {
 					(cell != null && cell.getMineCount() == -1 ? 1 : 0);
 			}
 		}
-		return new Cell(sumOfBombs, false, currentRow, currentColumn);
+		return new Cell(sumOfBombs, currentRow, currentColumn);
 	}
 
 	/**

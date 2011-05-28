@@ -27,9 +27,8 @@ public class Cell {
 	 * <code>true</code> only when the user clicks on the cell.
 	 * 
 	 * @param mineCount the mine count.
-	 * @param visible whether the mine count is to be shown on the page or not.
 	 */
-	public Cell(int mineCount, boolean visible, int x, int y) {
+	public Cell(int mineCount, int x, int y) {
 		this.mineCount = mineCount;
 		colour = getColour(mineCount);
 		this.x = x;
