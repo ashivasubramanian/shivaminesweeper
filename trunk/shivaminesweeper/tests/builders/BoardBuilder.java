@@ -4,6 +4,9 @@ import home.minesweeper.board.Board;
 import home.minesweeper.board.BoardModes;
 import home.minesweeper.board.Cell;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class BoardBuilder {
@@ -28,8 +31,11 @@ public class BoardBuilder {
 		return this;
 	}
 	
-	public Board build() {
+	public Board build() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		ReflectionTestUtils.setField(board, "rows", rows);
+		Method method = board.getClass().getDeclaredMethod("fillNonMineCellsWithNumbers", BoardModes.class);
+		method.setAccessible(true);
+		method.invoke(board, BoardModes.BEGINNER);
 		return board;
 	}
 }

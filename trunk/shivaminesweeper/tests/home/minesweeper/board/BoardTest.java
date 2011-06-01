@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import org.junit.Test;
 
@@ -67,13 +66,9 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForCentralTile() {
-		Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(2, 4).build();
 
 		try {
-			Method method = board.getClass().getDeclaredMethod("fillNonMineCellsWithNumbers", BoardModes.class);
-			method.setAccessible(true);
-			method.invoke(board, BoardModes.BEGINNER);
-			
+			Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(2, 4).build();
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for tile above",
 					1, rowsAfterExec[1][4].getMineCount());
@@ -103,15 +98,9 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForTopLeftTile() {
-		Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(0, 0).build();
 
 		try {
-			Method method = board.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers",
-					BoardModes.class);
-			method.setAccessible(true);
-			method.invoke(board, BoardModes.BEGINNER);
-			
+			Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(0, 0).build();
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for right tile",
 					1, rowsAfterExec[0][1].getMineCount());
@@ -138,15 +127,9 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForTopRightTile() {
-		Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(0, 8).build();
 
 		try {
-			Method method = board.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers",
-					BoardModes.class);
-			method.setAccessible(true);
-			method.invoke(board, BoardModes.BEGINNER);
-			
+			Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(0, 8).build();
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for left tile",
 					1, rowsAfterExec[0][7].getMineCount());
@@ -174,15 +157,9 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForBottomLeftTile() {
-		Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(8, 0).build();
 
 		try {
-			Method method = board.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers",
-					BoardModes.class);
-			method.setAccessible(true);
-			method.invoke(board, BoardModes.BEGINNER);
-			
+			Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(8, 0).build();
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for left tile",
 					1, rowsAfterExec[7][0].getMineCount());
@@ -209,15 +186,9 @@ public class BoardTest {
 	 */
 	@Test
 	public void verifyMineCountCalculationForBottomRightTile() {
-		Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(8, 8).build();
 
 		try {
-			Method method = board.getClass()
-				.getDeclaredMethod("fillNonMineCellsWithNumbers",
-					BoardModes.class);
-			method.setAccessible(true);
-			method.invoke(board, BoardModes.BEGINNER);
-			
+			Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(8, 8).build();
 			Cell rowsAfterExec[][] = board.getRows();
 			assertEquals("Mine calculation error for top left tile",
 					1, rowsAfterExec[7][7].getMineCount());
@@ -302,14 +273,10 @@ public class BoardTest {
 	
 	@Test
 	public void verifyBoardValidationReturnsTrueWhenAllMinesAreMarked() {
-		Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(0, 0).withMineIn(1, 0).withMineIn(2, 0).withMineIn(3, 0)
-			.withMineIn(4, 0).withMineIn(5, 0).withMineIn(5, 1).withMineIn(6, 0).withMineIn(7, 0).withMineIn(8, 8).build();
 
 		try {
-			Method method = board.getClass().getDeclaredMethod("fillNonMineCellsWithNumbers", BoardModes.class);
-			method.setAccessible(true);
-			method.invoke(board, BoardModes.BEGINNER);
-			
+			Board board = new BoardBuilder(BoardModes.BEGINNER).withMineIn(0, 0).withMineIn(1, 0).withMineIn(2, 0).withMineIn(3, 0)
+				.withMineIn(4, 0).withMineIn(5, 0).withMineIn(5, 1).withMineIn(6, 0).withMineIn(7, 0).withMineIn(8, 8).build();
 			board.markTile(0, 0, board.getRows()[0][0].getMineCount());
 			board.markTile(1, 0, board.getRows()[1][0].getMineCount());
 			board.markTile(2, 0, board.getRows()[2][0].getMineCount());
