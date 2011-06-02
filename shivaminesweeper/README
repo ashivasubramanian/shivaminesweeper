@@ -7,7 +7,7 @@ HOW TO SETUP SHIVAMINESWEEPER:
 Currently, the application is coded using Java/J2EE and hence the steps
 described below are for deployment into a J2EE server:
 
-1) Download the file, mine_release0.4.zip from the site.
+1) Download the file, mine_release1.0.zip from the site.
 2) Set the paths to the log file in src/logging.properties.
 3) Set the path to your Apache Tomcat in build.xml against CATALINA_HOME and CATALINA_BASE properties.
 4) To deploy the project to your server, use the ant deploy command. I developed this
