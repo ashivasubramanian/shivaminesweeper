@@ -65,7 +65,7 @@ public class Cell {
 	
 	public String toJSON() {
 		String mineCountJSON;
-		mineCountJSON = "{\"mineCount\" : \"" + mineCount + "\", \"colour\" : \"" + colour + "\", \"x\" : \"" + x + "\", \"y\" : \"" + y + "\"}";
+		mineCountJSON = "{\"mineCount\" : \"" + mineCount + "\", \"colour\" : \"" + colour + "\", \"row\" : \"" + x + "\", \"column\" : \"" + y + "\"}";
 		return mineCountJSON;
 	}
 	

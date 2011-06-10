@@ -65,10 +65,10 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("column")).thenReturn("3");
 		servlet.execute();
 		try {
-			byte mineCountAsByte[] = new byte[61];
+			byte mineCountAsByte[] = new byte[68];
 			servlet.getInputStream().read(mineCountAsByte);
 			String mineCountJSON = new String(mineCountAsByte);
-			assertEquals("Mine count is not 1", "{\"mineCount\" : \"1\", \"colour\" : \"green\", \"x\" : \"0\", \"y\" : \"3\"}", mineCountJSON);
+			assertEquals("Mine count is not 1", "{\"mineCount\" : \"1\", \"colour\" : \"green\", \"row\" : \"0\", \"column\" : \"3\"}", mineCountJSON);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -77,10 +77,10 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("column")).thenReturn("8");
 		servlet.execute();
 		try {
-			byte mineCountAsByte[] = new byte[61];
+			byte mineCountAsByte[] = new byte[68];
 			servlet.getInputStream().read(mineCountAsByte);
 			String mineCountJSON = new String(mineCountAsByte);
-			Assert.assertEquals("Mine count is not 3", "{\"mineCount\" : \"1\", \"colour\" : \"green\", \"x\" : \"1\", \"y\" : \"8\"}", mineCountJSON);
+			Assert.assertEquals("Mine count is not 3", "{\"mineCount\" : \"1\", \"colour\" : \"green\", \"row\" : \"1\", \"column\" : \"8\"}", mineCountJSON);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -107,19 +107,19 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("row")).thenReturn("6");
 		Mockito.when(request.getParameter("column")).thenReturn("7");
 		servlet.execute();
-		byte actualJSON[] = new byte[359];
+		byte actualJSON[] = new byte[401];
 		try {
 			servlet.getInputStream().read(actualJSON);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 		String expectedJSON = "{\"contiguous\": [";
-		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"6\", \"y\" : \"7\"}," +
-						"{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"6\", \"y\" : \"8\"},";
-		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"7\", \"y\" : \"7\"}," +
-						"{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"7\", \"y\" : \"8\"},";
-		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"8\", \"y\" : \"7\"}," +
-						"{\"mineCount\" : \"0\", \"colour\" : \"\", \"x\" : \"8\", \"y\" : \"8\"}";
+		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"row\" : \"6\", \"column\" : \"7\"}," +
+						"{\"mineCount\" : \"0\", \"colour\" : \"\", \"row\" : \"6\", \"column\" : \"8\"},";
+		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"row\" : \"7\", \"column\" : \"7\"}," +
+						"{\"mineCount\" : \"0\", \"colour\" : \"\", \"row\" : \"7\", \"column\" : \"8\"},";
+		expectedJSON += "{\"mineCount\" : \"0\", \"colour\" : \"\", \"row\" : \"8\", \"column\" : \"7\"}," +
+						"{\"mineCount\" : \"0\", \"colour\" : \"\", \"row\" : \"8\", \"column\" : \"8\"}";
 		expectedJSON += "]}";
 		assertEquals("Empty tiles JSON is incorrect!!", expectedJSON, new String(actualJSON));
 	}
@@ -132,13 +132,13 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("row")).thenReturn("1");
 		Mockito.when(request.getParameter("column")).thenReturn("0");
 		servlet.execute();
-		byte mineCount[] = new byte[61];
+		byte mineCount[] = new byte[68];
 		try {
 			servlet.getInputStream().read(mineCount);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		assertEquals("Colour is not green.", "{\"mineCount\" : \"2\", \"colour\" : \"green\", \"x\" : \"1\", \"y\" : \"0\"}", new String(mineCount));
+		assertEquals("Colour is not green.", "{\"mineCount\" : \"2\", \"colour\" : \"green\", \"row\" : \"1\", \"column\" : \"0\"}", new String(mineCount));
 	}
 	
 	@Test
@@ -149,13 +149,13 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("row")).thenReturn("1");
 		Mockito.when(request.getParameter("column")).thenReturn("1");
 		servlet.execute();
-		byte mineCountJSON[] = new byte[62];
+		byte mineCountJSON[] = new byte[69];
 		try {
 			servlet.getInputStream().read(mineCountJSON);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		assertEquals("Colour is not orange.", "{\"mineCount\" : \"3\", \"colour\" : \"orange\", \"x\" : \"1\", \"y\" : \"1\"}", new String(mineCountJSON));
+		assertEquals("Colour is not orange.", "{\"mineCount\" : \"3\", \"colour\" : \"orange\", \"row\" : \"1\", \"column\" : \"1\"}", new String(mineCountJSON));
 	}
 	
 	@Test
@@ -166,13 +166,13 @@ public class GetMineCountTest {
 		Mockito.when(request.getParameter("row")).thenReturn("4");
 		Mockito.when(request.getParameter("column")).thenReturn("1");
 		servlet.execute();
-		byte mineCountJSON[] = new byte[59];
+		byte mineCountJSON[] = new byte[66];
 		try {
 			servlet.getInputStream().read(mineCountJSON);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		assertEquals("Colour is not red.", "{\"mineCount\" : \"4\", \"colour\" : \"red\", \"x\" : \"4\", \"y\" : \"1\"}", new String(mineCountJSON));
+		assertEquals("Colour is not red.", "{\"mineCount\" : \"4\", \"colour\" : \"red\", \"row\" : \"4\", \"column\" : \"1\"}", new String(mineCountJSON));
 		
 		Mockito.when(request.getParameter("row")).thenReturn("7");
 		Mockito.when(request.getParameter("column")).thenReturn("1");
@@ -183,7 +183,7 @@ public class GetMineCountTest {
 			ioe.printStackTrace();
 		}
 		assertEquals("Colour is not red for minecount > 4.",
-				"{\"mineCount\" : \"5\", \"colour\" : \"red\", \"x\" : \"7\", \"y\" : \"1\"}", new String(mineCountJSON));
+				"{\"mineCount\" : \"5\", \"colour\" : \"red\", \"row\" : \"7\", \"column\" : \"1\"}", new String(mineCountJSON));
 	}
 	
 	@Test
