@@ -47,7 +47,7 @@ function revealCell(data) {
 		} 
 		for (i = 0; i < data.contiguous.length; i++) {
 			var table = document.getElementById("board");
-			table.rows[data.contiguous[i].x].cells[data.contiguous[i].y].style.backgroundColor = "white";
+			table.rows[data.contiguous[i].row].cells[data.contiguous[i].column].style.backgroundColor = "white";
 		}
 	} else {
 		if (!isFirstRevealAMine) {
