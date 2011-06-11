@@ -17,9 +17,9 @@ public class Cell {
 	
 	private String colour;
 	
-	private int x;
+	private int row;
 	
-	private int y;
+	private int column;
 	
 	/**
 	 * Initializes the cell with the mine count and display values. Note that <code>visible</code> determines whether
@@ -28,11 +28,11 @@ public class Cell {
 	 * 
 	 * @param mineCount the mine count.
 	 */
-	public Cell(int mineCount, int x, int y) {
+	public Cell(int mineCount, int row, int column) {
 		this.mineCount = mineCount;
 		colour = getColour(mineCount);
-		this.x = x;
-		this.y = y;
+		this.row = row;
+		this.column = column;
 	}
 
 	/**
@@ -55,17 +55,17 @@ public class Cell {
 		return colour;
 	}
 	
-	public int getX() {
-		return x;
+	public int getRow() {
+		return row;
 	}
 	
-	public int getY() {
-		return y;
+	public int getColumn() {
+		return column;
 	}
 	
 	public String toJSON() {
 		String mineCountJSON;
-		mineCountJSON = "{\"mineCount\" : \"" + mineCount + "\", \"colour\" : \"" + colour + "\", \"row\" : \"" + x + "\", \"column\" : \"" + y + "\"}";
+		mineCountJSON = "{\"mineCount\" : \"" + mineCount + "\", \"colour\" : \"" + colour + "\", \"row\" : \"" + row + "\", \"column\" : \"" + column + "\"}";
 		return mineCountJSON;
 	}
 	
@@ -78,16 +78,16 @@ public class Cell {
 			throw new IllegalArgumentException("Can compare only instances of home.minesweeper.board.Cell!!");
 		}
 		Cell cell = (Cell) object;
-		return (cell.getMineCount() == mineCount && cell.getX() == x && cell.getY() == y);
+		return (cell.getMineCount() == mineCount && cell.getRow() == row && cell.getColumn() == column);
 	}
 	
 	@Override
 	public int hashCode() {
-		return x + y + mineCount;
+		return row + column + mineCount;
 	}
 	
 	@Override
 	public String toString() {
-		return "(" + x + "," + y + ") => " + mineCount;
+		return "(" + row + "," + column + ") => " + mineCount;
 	}
 }
