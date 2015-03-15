@@ -1,0 +1,1 @@
+Minesweeper game on the web. Written in Java to increase/showcase my coding skills.
